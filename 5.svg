@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 415.7 273.67">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #c2d9e5;
+      }
+
+      .cls-2 {
+        stroke-dasharray: 12.18 12.18;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-4 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 53.52px;
+      }
+
+      .cls-5 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <polygon class="cls-1" points="32.61 210.5 408.81 6.44 226.03 210.5 32.61 210.5"/>
+      <path d="M401.92,11.89l-176.56,197.11H38.52L401.92,11.89M415.7,1L26.7,212h200L415.7,1h0Z"/>
+    </g>
+    <g>
+      <rect class="cls-5" x="11.2" y="179.5" width="31" height="31"/>
+      <path d="M40.7,181v28H12.7v-28h28M43.7,178H9.7v34h34v-34h0Z"/>
+    </g>
+    <g>
+      <rect class="cls-5" x="14.2" y="2.5" width="31" height="31"/>
+      <path d="M43.7,4v28H15.7V4h28M46.7,1H12.7v34h34V1h0Z"/>
+    </g>
+    <g>
+      <line class="cls-3" x1="12.2" y1="31.18" x2="12.2" y2="190.82"/>
+      <polygon points="12.2 10 0 39.85 12.2 32.77 24.39 39.85 12.2 10"/>
+      <polygon points="12.2 212 0 182.15 12.2 189.23 24.39 182.15 12.2 212"/>
+    </g>
+    <g>
+      <line class="cls-3" x1="415.2" y1="1.5" x2="409.2" y2="1.5"/>
+      <line class="cls-2" x1="397.01" y1="1.5" x2="13.29" y2="1.5"/>
+      <line class="cls-3" x1="7.2" y1="1.5" x2="1.2" y2="1.5"/>
+    </g>
+  </g>
+  <g id="base">
+    <text class="cls-4" transform="translate(111.51 260.29)"><tspan x="0" y="0">b</tspan></text>
+  </g>
+  <g id="height">
+    <text class="cls-4" transform="translate(26.72 121.67)"><tspan x="0" y="0">h</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 387.5 275.94">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 53.52px;
+      }
+
+      .cls-2 {
+        fill: #eac3fc;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <polygon class="cls-2" points="2.08 214.5 72.3 2.36 382.65 214.5 2.08 214.5"/>
+      <path d="M73.1,4.72l304.7,208.28H4.15L73.1,4.72M71.5,0L0,216h387.5L71.5,0h0Z"/>
+    </g>
+    <g>
+      <rect class="cls-2" x="77" y="182.5" width="31" height="31"/>
+      <path d="M106.5,184v28h-28v-28h28M109.5,181h-34v34h34v-34h0Z"/>
+    </g>
+    <g>
+      <line class="cls-3" x1="75" y1="27.68" x2="75" y2="187.82"/>
+      <polygon points="75 6.5 62.8 36.35 75 29.27 87.19 36.35 75 6.5"/>
+      <polygon points="75 209 62.8 179.15 75 186.23 87.19 179.15 75 209"/>
+    </g>
+  </g>
+  <g id="base">
+    <text class="cls-1" transform="translate(165.52 262.56)"><tspan x="0" y="0">b</tspan></text>
+  </g>
+  <g id="height">
+    <text class="cls-1" transform="translate(87.83 128.55)"><tspan x="0" y="0">h</tspan></text>
+  </g>
+</svg>
