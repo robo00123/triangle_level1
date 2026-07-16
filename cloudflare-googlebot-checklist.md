@@ -203,32 +203,47 @@ Rate limit: `/shop` Managed Challenge — lower SEO priority than `/product/`.
 
 **Why this matters for your GSC data:** many high-impression URLs are `/product/...` (corresponding angles, transformations, completing the square, etc.) with very low CTR. Challenging those paths for crawlers can stall re-indexing after March.
 
-### Exact fixes (do these)
+### Verified expressions (your screenshots)
 
-1. **Edit rule 1** — remove any URI/path condition. It must Skip for verified/Known bots on **all** URLs (including `/product/`, `/shop/`, `/wp-admin` is fine to leave challenged for humans).  
-   Target expression:
+**Rule 1 (actual — sitewide, name is wrong):**
+```txt
+(
+  cf.client.bot
+  or http.user_agent contains "Googlebot"
+  or http.user_agent contains "Google-InspectionTool"
+  or http.user_agent contains "bingbot"
+)
+```
+Skip: remaining custom rules, rate limiting, managed rules, Super Bot Fight Mode. Place: **First**. Log: on.
+
+**Rule 4 (actual — bots excluded):**
+```txt
+(http.request.method eq "GET"
+and (http.request.uri.path contains "/product/"
+  or http.request.uri.path contains "/product-category/")
+and not cf.client.bot)
+```
+Action: Managed Challenge.
+
+### Remaining optional hardenings (not blocking Google)
+
+1. **Rename rule 1** → `Skip protection for verified bots (all pages)` so you don’t re-add a path filter later by mistake.
+2. **Tighten rule 1 for security:** `cf.client.bot` skips *any* Cloudflare-classified bot past your WAF — including some bad bots. Prefer:
    ```txt
-   (cf.client.bot) or (http.user_agent contains "Googlebot") or (http.user_agent contains "Google-InspectionTool") or (http.user_agent contains "bingbot") or (http.user_agent contains "BingPreview")
+   (
+     cf.bot_management.verified_bot
+     or http.user_agent contains "Googlebot"
+     or http.user_agent contains "Google-InspectionTool"
+     or http.user_agent contains "bingbot"
+     or http.user_agent contains "BingPreview"
+   )
    ```
-   Or in the visual builder: **Known Bots equals true** OR those User-Agent contains clauses.  
-   Action: **Skip** → skip remaining custom rules (and bot fight if offered).  
-   Rename to: `Skip protection for verified bots (all pages)`.
-
-2. **Edit rule 4** (`protecting product/category pages`) — add exclusion so it only challenges non-bots:
-   ```txt
-   ...existing product/category match... and not cf.client.bot
-   ```
-   In UI: add **Known Bots does not equal true** (same pattern as rules 5 and 7).
-
-3. **Edit rule 2** (country block) — add **and Known Bots does not equal true** so a misclassified crawler never gets a hard Block.
-
-4. Keep rule 7’s Known Bots exclusion; optional rename to `Challenge non-bots on /shop`.
-
-5. Re-test in GSC **Test live URL**:
+   (Use `verified_bot` only if your plan exposes it; otherwise keep `cf.client.bot` + UA list.)
+3. Add `BingPreview` UA to rule 1 if you care about Bing link previews.
+4. Re-test in GSC **Test live URL** (must pass):
    - `https://mr-mathematics.com/product/corresponding-angles-parallel-lines/`
    - `https://mr-mathematics.com/pull-up-nets/`
-   - Homepage  
-   All three must **Page fetch: Successful**.
+   - Homepage
 
 ---
 
