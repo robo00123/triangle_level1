@@ -36,7 +36,7 @@ Implication for £55k: you are **not** sitting on unused 800k monthly visitors. 
 
 ## The numbers (what “£55k” actually means)
 
-You need roughly **5.5× last year’s membership revenue**. With your current prices, three realistic mixes:
+From a **£9.3k TTM** base you need roughly **6×**, not a gentle uptick. Using **listed** Teacher £49.95 and School £395:
 
 | Mix | School (£395) | Teacher (£49.95) | Approx. revenue |
 |-----|---------------|------------------|-----------------|
@@ -44,22 +44,25 @@ You need roughly **5.5× last year’s membership revenue**. With your current p
 | B – Balanced (recommended) | 70 | ~520 | ~£55k |
 | C – School-led | 100 | ~310 | ~£55k |
 
-**Why B is the right default:** one school sale ≈ **8 teacher sales**. You already have department-friendly assets (schemes of work, sequenced units, shared planning). Full-time income is much easier if school seats become a deliberate channel, not an accidental upsell.
+Today you are closer to **~150 Teacher-like + ~18 × £119** per year. Hitting Mix B means roughly **3.5× Teacher volume** and replacing the quiet £119 channel with a real **£395 department** motion (or selling far more £119s — ~460/year — which is worse economics).
 
-Rough checkpoint for the year (Mix B):
+**Why school AOV still matters:** one £395 school sale ≈ **8 Teacher** sales ≈ **3.3 × £119** sales. But only if buyers actually pay £395 — validate that SKU in WooCommerce vs the £119.50 report line.
 
-| Quarter | Cumulative target | Focus |
-|---------|-------------------|--------|
-| Q1 | £14k | Funnel fixes + SEO money pages |
-| Q2 | £28k | School outreach + renewal push |
-| Q3 | £42k | Exam season / new academic year peak |
-| Q4 | £55k | January planning + spring renewals |
+**Calendar checkpoints** (weighted to your real seasonality):
+
+| Window | Cumulative target | Focus |
+|--------|-------------------|--------|
+| Aug–Sep | £12k+ | Must beat prior September (~£2.1–2.8k); school POs + Teacher push |
+| Oct–Nov | £22k | Second peak; renewals + win-backs |
+| Dec–Feb | £32k | Retention; January planning content |
+| Mar–May | £45k | Budget / next-year school conversations |
+| Jun–Jul | £55k | Close pipeline; prep next September |
 
 ---
 
-## Diagnosis: win more of the clicks you already rank for — then convert them
+## Diagnosis: traffic is stable-ish; sales are soft — fix capture, conversion, and school AOV
 
-With ~5k Google clicks/month and £10k membership revenue, you need **both** better search capture and better monetisation — not a claim of unused mass traffic.
+With ~5k Google clicks/month and membership revenue **slipping from ~£11.5k → ~£9.3k TTM**, you need **better search capture, better checkout conversion, and a real school product motion**. Volume of ~£50 memberships fell; that is the core problem to reverse before September.
 
 Prioritise leaks in this order:
 
@@ -310,11 +313,13 @@ When evenings become your day job, protect time for revenue work — not only re
 
 ### Days 1–30 — Stop the leaks
 
-- [ ] Audit top 20 landing pages; add membership CTA block  
+- [ ] Rewrite titles/meta for top 10 high-impression / low-CTR pages from GSC  
+- [ ] Audit top 20 landing pages by clicks; add membership CTA block  
 - [ ] Rewrite membership page to force Teacher vs School choice  
 - [ ] Ship trial **or** term option  
 - [ ] Segment Zoho: active / lapsed / free / multi-teacher domains  
-- [ ] Send weekly email without fail (4 emails)
+- [ ] Send weekly email without fail (4 emails)  
+- [ ] Document what caused the March 2026 traffic collapse; add uptime/index checks
 
 ### Days 31–60 — School channel
 
@@ -363,11 +368,11 @@ If revenue rises then falls, fix retention.
 
 £55k is **~70 schools + ~520 teachers** (or an equivalent mix)—not a mystery growth hack.
 
-You already have the hard parts: a trusted brand, a huge free audience, a full KS3–A-Level library, and better SEO than last year. The next level is operational:
+GSC shows a real niche SEO engine (~5k clicks/month, strong UK desktop demand), not 800k monthly visits. The next level is operational:
 
-1. Convert the traffic you already earn  
-2. Sell departments on purpose  
-3. Email every week like it’s a product launch  
-4. Point SEO at pages that sell memberships  
+1. Harvest CTR on pages that already rank  
+2. Convert those clicks into Teacher/School memberships  
+3. Sell departments on purpose  
+4. Email every week like it’s a product launch  
 
 Do that consistently for a full academic year and full-time becomes a numbers problem you can manage—not a leap of faith.
