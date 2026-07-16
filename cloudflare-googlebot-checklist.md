@@ -191,10 +191,10 @@ Custom rules (order matters — top first):
 
 | # | Rule | Action | SEO verdict |
 |---|------|--------|-------------|
-| 1 | `Skip protection for verified bots (safe pages only)` | Skip | **Partial.** Name says *safe pages only* — if Skip is limited to certain paths, Googlebot is **not** skipped elsewhere. |
-| 2 | `03 - Block high-risk countries` (RU, VN, KP, IR, BY) | Block | OK for Googlebot IPs (not those countries), but should still exclude Known/Verified bots for safety. |
+| 1 | `Skip protection for verified bots (safe pages only)` | Skip | **OK for Google (verified).** Full expression has **no path filter** despite the name — matches `cf.client.bot` OR Google/Bing UAs; Skip custom + rate limit + managed + Super Bot Fight; Place **First**. Rename only. |
+| 2 | `03 - Block high-risk countries` (RU, VN, KP, IR, BY) | Block | OK if rule 1 stays First; optional: exclude verified bots on the rule itself. |
 | 3 | `04 - CN and TH - harden WordPress attack paths` | Managed Challenge | OK — already excludes Known Bots. |
-| 4 | `protecting product/category pages` (`/product/` …) | Managed Challenge | **High risk.** Expression as shown has **no** Known Bots exclusion. If rule 1 doesn’t Skip on `/product/`, **Googlebot gets challenged** on product URLs. |
+| 4 | `protecting product/category pages` (`/product/` …) | Managed Challenge | **OK for Google (verified).** Expression includes `and not cf.client.bot` on GET `/product/` and `/product-category/`. |
 | 5 | `Protect Search Bar` (`s=` + not Known Bot) | Managed Challenge | OK — excludes Known Bots. |
 | 6 | `Block VNPT Corp` (AS45899) | Block | OK if rule 1 Skips verified bots sitewide; otherwise add bot exclusion. |
 | 7 | `Allow Google & Bing but nothing else to shop` (`/shop` + not Known Bot) | Managed Challenge | OK for Google **if** Known Bots detection works; name is misleading (it challenges everyone else). |
