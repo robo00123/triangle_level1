@@ -1,9 +1,53 @@
 # Mr Mathematics: £10k → £55k Membership Plan
 
 **Goal:** £55,000 / year membership revenue (enough to treat the site as a full-time business)  
-**Baseline:** £10,000 last year (evenings only; weaker SEO)  
+**Baseline (your figure):** ~£10,000 last year  
+**Measured run-rate:** ~**£9.3k–£11.5k** TTM from the two WooCommerce sales exports below  
 **Site:** [mr-mathematics.com](https://mr-mathematics.com)  
-**Current prices (annual):** Lite £19.95 · Student £29.85 · Teacher £49.95 · School £395
+**Listed prices (annual):** Lite £19.95 · Student £29.85 · Teacher £49.95 · School £395
+
+---
+
+## Evidence: Sales (Jul 2023 – Jul 2026)
+
+Two monthly WooCommerce custom reports (filenames as uploaded):
+
+| Report | Inferred product | Unit price pattern | 3-yr items | 3-yr sales |
+|--------|------------------|--------------------|----------:|----------:|
+| `sales-teacher-like-monthly.csv` (report 1) | Individual memberships (mostly Teacher) | ~£30–£50; **£49.95 most common** | 524 | **£24,098** |
+| `sales-119-monthly.csv` (report 2) | Fixed £119.50 SKU (likely school/department tier) | **£119.50 every sale** | 65 | **£7,768** |
+
+**Combined totals**
+
+| Period | Items | Revenue |
+|--------|------:|--------:|
+| Calendar 2023 (partial Jul–Dec) | 113 | £5,448 |
+| Calendar 2024 | 219 | **£12,189** |
+| Calendar 2025 | 170 | **£9,148** |
+| 2026 YTD (Jan–Jul) | 87 | £5,081 |
+| Academic 2023–24 (Aug–Jul) | 197 | £10,226 |
+| Academic 2024–25 | 207 | **£11,117** |
+| Academic 2025–26 (to Jul) | 174 | £9,715 |
+| TTM to Jun 2025 | 213 | **£11,487** |
+| TTM to Jun 2026 | 170 | **£9,307** |
+
+Your “~£10k last year” matches the data. The uncomfortable part: **revenue peaked in 2024 and has softened** (~19% down TTM Jun 2025 → Jun 2026), driven mainly by fewer individual (~£50) sales (193 → 152 units TTM).
+
+**Seasonality (combined average by month):** September dominates (~£2,260 avg; peak £2,785 in Sep 2024). November is a clear second peak. December is dead (~£280). The year is won or lost in **late August–November**.
+
+**Product mix gap vs the live membership page:** these exports show **no £395 School lines**. Either School @ £395 is not selling / not in these reports, or departments are still buying the **£119.50** SKU. Clarify which SKU is “School” before counting on 70 × £395. At current mix, ~20 × £119.50/year ≈ £2.4k — nowhere near a full-time school channel.
+
+**Gap to £55k from TTM £9.3k:** about **+£45.7k** (~**5.9×** current run-rate), not a small CRO tweak alone.
+
+Rough path from *actual* baseline (illustrative):
+
+| Lever | Stretch annual impact | Notes |
+|-------|----------------------:|-------|
+| Recover + grow Teacher to ~300 units @ ~£50 | ~£15k | Was ~190 at peak TTM |
+| Replace/upgrade £119 SKU → true School @ £395 × 50 | ~£20k | Requires active HoD selling |
+| CTR + conversion lift on existing SEO | ~£5–10k | Same traffic quality, more checkouts |
+| Retention / win-back / email | ~£3–5k | Protect the base that is currently shrinking |
+| **Combined stretch** | **~£45–50k uplift** | Needs all levers, especially September |
 
 ---
 
@@ -27,10 +71,108 @@ Other facts from the same export:
 - **Desktop converts search better:** Desktop 39,663 clicks @ 1.08% CTR vs Mobile 14,767 @ 0.49%.
 - **Traffic is concentrated:** Top 10 pages ≈ 45% of page-export clicks (pull-up nets, grade 9 vectors, indices equations, homepage, schemes of work…).
 - **Huge CTR gap:** many URLs sit at position ~1–4 with 20k–190k impressions and CTR well under 1% (product pages and some lesson pages especially).
-- **March 2026 cliff:** clicks/impressions collapsed nearly to zero mid-month, then partially recovered — treat as a technical/indexing incident to prevent repeating.
+- **March 2026 cliff (explained):** Vietnam bot attacks → site crashes → Cloudflare “block all bots” → Google/Bing crawl blocked → impressions fell to ~9% of February. Rules later fixed; recovery incomplete (Jun still ~35% of Feb impressions).
 - Brand queries (`mr mathematics` etc.) are strong but a minority of demand; growth is non-brand lesson queries.
 
-Implication for £55k: you are **not** sitting on unused 800k monthly visitors. You have a solid niche SEO base (~5k Google visits/month) with **low CTR for how well you rank**, plus conversion/school/email work still matters. Raising CTR on high-impression pages is now a first-class growth lever alongside membership conversion.
+Implication for £55k: the near-term SEO job is **index/crawl recovery to pre-March levels**, then CTR + conversion. You are not starting from zero — Jun already recovered clicks somewhat — but **impression share is still ~⅓ of the Feb peak**, which caps membership upside into September.
+
+---
+
+## March 2026 outage → index recovery playbook
+
+### What happened (confirmed by GSC + your account)
+
+1. Malicious bots (Vietnam) repeatedly hit the site and, with the then host/app setup, caused repeated crashes.  
+2. Cloudflare was configured to stop essentially all bots.  
+3. That also stopped **Googlebot / Bingbot**, so discovery and recrawl collapsed.  
+4. Rules and site setup were corrected; Yoast sitemap resubmitted; high-profile URLs manually requested for indexing.  
+5. **Some URLs remain unindexed or weakly recrawled** — normal after a multi-week crawl blackout, but it needs a systematic finish, not only one-off “Request indexing” clicks.
+
+GSC monthly impressions vs Feb 2026 peak: Mar **9%** → Apr **18%** → May **36%** → Jun **35%**. Recovery stalled around one-third of peak visibility.
+
+### Step A — Prove Google can fetch *right now* (do this before more Request indexing)
+
+In Cloudflare, permanently:
+
+- **Allow verified bots** (Google, Bing). Never put them behind JS challenge / Bot Fight for HTML.
+- Prefer **managed allow** for verified search engine bots over country blocks that can catch crawler IPs.
+- Keep blocking abusive ASN/IPs/countries for *unverified* traffic if needed.
+- Check **Security → Events** filtered by UA `Googlebot` / `bingbot` for any recent Block/Challenge (should be zero).
+- Confirm **“Block AI bots”** (or AI scrape controls) is not also catching multi-purpose Googlebot — Cloudflare has warned some AI-block modes can affect Googlebot depending on settings.
+
+In Google Search Console, for 5 money URLs (homepage, schemes of work, pull-up nets, grade-9 vectors, indices):
+
+1. **URL Inspection → Test live URL**  
+2. Require: Crawl allowed = Yes, Page fetch = **Successful**, rendered HTML shows real lesson content (not a challenge/empty shell)  
+3. Only then **Request indexing**
+
+If live test fails while the page works in a browser, Cloudflare/WAF is still interfering — fix that before blaming the index.
+
+Also check GSC **Settings → Crawl stats**: host status, crawl requests, and 4xx/5xx since the rule change. You want rising successful crawls and flat/low 403s.
+
+Bing Webmaster Tools: same idea (URL inspection / crawl control) — you deferred Bing too.
+
+### Step B — Index coverage triage (Pages report)
+
+In GSC **Indexing → Pages**, export reasons. Work queues in this order:
+
+| Bucket | Action |
+|--------|--------|
+| Not indexed – crawled / discovered currently not indexed | Fix internal links + sitemap inclusion; request indexing for top URLs only |
+| Soft 404 / redirects / duplicates | Clean canonicals (Yoast), consolidate |
+| Blocked by robots.txt / 4xx / 5xx | Fix immediately — leftover of the outage |
+| Indexed | Leave alone; improve CTR/content later |
+
+Do **not** spray “Request indexing” across hundreds of URLs. Google rate-limits it. Batch **10–20 revenue URLs/day** until the backlog of *important* URLs shows “Indexed”.
+
+### Step C — Priority URL list (revenue + proven demand)
+
+Recrawl/index these first (from your GSC clicks leaders + membership path):
+
+1. `https://mr-mathematics.com/`  
+2. `/mathematics-schemes-of-work/`  
+3. `/mr-mathematics-membership/`  
+4. `/pull-up-nets/`  
+5. `/grade-9-vector-problems/`  
+6. `/solving-equations-with-indices/`  
+7. `/area-of-compound-shapes/`  
+8. Other top-20 click URLs from the Pages export  
+9. Then orphan lesson posts that **lost** index status (compare Yoast/sitemap URL count vs GSC “Indexed” count)
+
+For each still-not-indexed URL:
+
+- Confirm it appears in the Yoast sitemap (`sitemap_index.xml` → post/page sitemaps)  
+- Confirm a visible internal link from a strong indexed page (schemes hub, related lesson, “what’s new”)  
+- Fetch as Google (live test)  
+- Request indexing once  
+- Wait 1–2 weeks before repeating
+
+### Step D — Help Google re-discover the long tail
+
+After money pages are healthy:
+
+- Keep **one clean sitemap index** submitted (Yoast). Remove any stale secondary sitemaps.  
+- Publish a genuine **What’s new / site updates** post that links clusters of recovered lessons (you already do monthly updates — use the next one as an internal-link recovery hub).  
+- Rebuild internal links from schemes of work → member lesson URLs that dropped out.  
+- Avoid large sitewide noindex experiments while recovering.
+
+### Step E — Guardrails so this never repeats
+
+- Cloudflare rule note in the dashboard: **“Never challenge verified search engine bots.”**  
+- Alert if GSC crawl requests or impressions drop >50% week-on-week.  
+- Separate “block abusive bots” from “block all bots.”  
+- After any WAF change: live-test 3 URLs in GSC the same day.
+
+### Recovery success metrics (next 8–12 weeks)
+
+| Signal | Target |
+|--------|--------|
+| Monthly impressions | Back toward **~1.0–1.3M** (Jan–Feb 2026 band) before chasing new content volume |
+| Crawl stats | Stable daily Googlebot fetches; minimal 403 from CF |
+| Pages report | “Not indexed” count falling; money URLs all Indexed |
+| September readiness | Top 20 click URLs indexed + ranking by mid-August |
+
+Until impressions recover, treat **index recovery as the #1 SEO project** — ahead of publishing net-new posts — because September sales depend on visibility you already earned once.
 
 ---
 
@@ -60,9 +202,9 @@ Today you are closer to **~150 Teacher-like + ~18 × £119** per year. Hitting M
 
 ---
 
-## Diagnosis: traffic is stable-ish; sales are soft — fix capture, conversion, and school AOV
+## Diagnosis: recovering from a crawl blackout while sales are soft
 
-With ~5k Google clicks/month and membership revenue **slipping from ~£11.5k → ~£9.3k TTM**, you need **better search capture, better checkout conversion, and a real school product motion**. Volume of ~£50 memberships fell; that is the core problem to reverse before September.
+Membership revenue slipped **~£11.5k → ~£9.3k TTM** while Google visibility is only ~**⅓ of the Feb 2026 peak** after the Cloudflare bot-block incident. Near term you need: **(1) finish index recovery**, **(2) CTR + checkout conversion**, **(3) school AOV**, **(4) reverse the Teacher unit decline before September**.
 
 Prioritise leaks in this order:
 
@@ -311,15 +453,18 @@ When evenings become your day job, protect time for revenue work — not only re
 
 ## 90-day sprint (do this before anything fancy)
 
-### Days 1–30 — Stop the leaks
+### Days 1–30 — Finish crawl recovery + stop commercial leaks
 
-- [ ] Rewrite titles/meta for top 10 high-impression / low-CTR pages from GSC  
+- [ ] Cloudflare: confirm zero Block/Challenge on Googlebot/Bingbot in Security Events  
+- [ ] GSC live URL test on top 10 money pages; fix any fetch failures before more indexing requests  
+- [ ] Pages report triage; request indexing only for important “not indexed” URLs (10–20/day)  
+- [ ] Next “What’s new” post links a cluster of still-recovering lessons  
+- [ ] Rewrite titles/meta for top 10 high-impression / low-CTR pages still indexed  
 - [ ] Audit top 20 landing pages by clicks; add membership CTA block  
 - [ ] Rewrite membership page to force Teacher vs School choice  
 - [ ] Ship trial **or** term option  
 - [ ] Segment Zoho: active / lapsed / free / multi-teacher domains  
-- [ ] Send weekly email without fail (4 emails)  
-- [ ] Document what caused the March 2026 traffic collapse; add uptime/index checks
+- [ ] Send weekly email without fail (4 emails)
 
 ### Days 31–60 — School channel
 
