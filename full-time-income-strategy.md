@@ -7,6 +7,33 @@
 
 ---
 
+## Evidence: Google Search Console (last 12 months)
+
+Source: GSC Performance export, Web search, ~4 Aug 2025 – 14 Jul 2026 (345 days).
+
+| Metric | Total | Approx. monthly |
+|--------|------:|----------------:|
+| Clicks | **55,639** | **~4,900** |
+| Impressions | **6,888,018** | **~608,000** |
+| Average CTR | **0.81%** | — |
+| Average position | **5.5** | — |
+
+**The About page “800,000 teachers / month” claim is not supported as visits.**  
+GSC shows ~5k Google clicks/month. Monthly *impressions* (~608k, peaking ~1.1–1.3M in Jan–Feb 2026) are in a similar order of magnitude to that number, but impressions are not site visits.
+
+Other facts from the same export:
+
+- **UK is the business:** UK 30,370 clicks (55%); US/India add impressions but tiny CTR (0.26% / 0.28%).
+- **Desktop converts search better:** Desktop 39,663 clicks @ 1.08% CTR vs Mobile 14,767 @ 0.49%.
+- **Traffic is concentrated:** Top 10 pages ≈ 45% of page-export clicks (pull-up nets, grade 9 vectors, indices equations, homepage, schemes of work…).
+- **Huge CTR gap:** many URLs sit at position ~1–4 with 20k–190k impressions and CTR well under 1% (product pages and some lesson pages especially).
+- **March 2026 cliff:** clicks/impressions collapsed nearly to zero mid-month, then partially recovered — treat as a technical/indexing incident to prevent repeating.
+- Brand queries (`mr mathematics` etc.) are strong but a minority of demand; growth is non-brand lesson queries.
+
+Implication for £55k: you are **not** sitting on unused 800k monthly visitors. You have a solid niche SEO base (~5k Google visits/month) with **low CTR for how well you rank**, plus conversion/school/email work still matters. Raising CTR on high-impression pages is now a first-class growth lever alongside membership conversion.
+
+---
+
 ## The numbers (what “£55k” actually means)
 
 You need roughly **5.5× last year’s membership revenue**. With your current prices, three realistic mixes:
@@ -30,19 +57,20 @@ Rough checkpoint for the year (Mix B):
 
 ---
 
-## Diagnosis: you probably don’t need more “content first”
+## Diagnosis: win more of the clicks you already rank for — then convert them
 
-If ~800,000 people hit your resources monthly and membership only made £10k, the constraint is **conversion and monetisation of existing traffic**, not inventing a new product.
+With ~5k Google clicks/month and £10k membership revenue, you need **both** better search capture and better monetisation — not a claim of unused mass traffic.
 
-Typical leaks for a site like yours:
+Prioritise leaks in this order:
 
-1. Free users never see a clear reason to pay *this week*
-2. Blog/SEO traffic has weak paths into membership
+1. **Low CTR while ranking well** (impressions → clicks) — titles/meta and weak `/product/` snippets
+2. Free users never see a clear reason to pay *this week* (clicks → membership)
 3. Inactive members / guest list are not systematically reactivated
 4. Schools are undersold relative to individual teachers
 5. Pricing is annual-only with little urgency (no trial, no term option, weak “start of term” campaigns)
+6. March-style traffic collapses — monitoring / indexing resilience
 
-Your improved SEO is an advantage **only if** every high-intent page ends in a membership decision.
+Your improved SEO is an advantage **only if** high-impression pages earn stronger CTR and every high-intent page ends in a membership decision.
 
 ---
 
@@ -52,14 +80,38 @@ Your improved SEO is an advantage **only if** every high-intent page ends in a m
 
 Four levers, in priority order:
 
-1. **Conversion** (same traffic → more sales)  
-2. **School AOV** (same effort → larger cheques)  
-3. **Retention / reactivation** (keep what you already sold)  
-4. **SEO scale** (more of the traffic that already converts)
+1. **CTR / rankings harvest** (impressions you already have → more clicks)  
+2. **Conversion** (those clicks → more sales)  
+3. **School AOV** (same effort → larger cheques)  
+4. **Retention + SEO scale** (keep buyers; grow non-brand queries)
 
 ---
 
-## Lever 1 — Conversion (fastest path to first +£10–20k)
+## Lever 1 — CTR harvest (impressions → clicks)
+
+You already average position **5.5** with **~6.9M** impressions. At **0.81% CTR**, most of that visibility never becomes a visit.
+
+If overall CTR moved from 0.8% → **1.2%** on the same impressions, that is roughly **+50% clicks** (~2,500 extra Google visits/month) with little new content.
+
+### Fix these page types first
+
+From the GSC Pages export — high impressions, strong position, weak CTR:
+
+| Page type | Examples | Likely fix |
+|-----------|----------|------------|
+| `/product/` URLs | corresponding angles, describing transformations, completing the square | Rewrite titles/meta for teachers (“lesson + worksheet”), not bare topic names; avoid thin product SERP snippets |
+| High-rank lesson pages | compound shapes, cumulative frequency, plan & elevation | Benefit-led title + clearer free sample promise |
+| IGCSE foundation hubs | perimeter/area/volume, Pythagoras, FDP | Match query language; add worksheet/PDF cues in title |
+
+Also protect what already works: **pull-up nets**, **grade 9 vectors**, **indices equations**, **schemes of work**, homepage — keep rankings, improve on-page membership CTAs.
+
+### Operational rule
+
+Each week, take the top 10 “impressions ≥ 20k, CTR < 1%, position ≤ 8” URLs and ship title/meta + H1 clarity updates. Re-check in GSC after 2–4 weeks.
+
+---
+
+## Lever 2 — Conversion (clicks → membership sales)
 
 ### Fix the membership path on every high-traffic page
 
@@ -109,7 +161,7 @@ Every FAQ answer should end with a CTA, not just information.
 
 ---
 
-## Lever 2 — School membership (the £55k unlock)
+## Lever 3 — School membership (the £55k unlock)
 
 Target: **~70 school memberships** in the balanced mix (~£27.7k) plus teachers for the rest.
 
@@ -150,7 +202,7 @@ Push school hardest in:
 
 ---
 
-## Lever 3 — Retention & list conversion (money you already own)
+## Lever 4 — Retention & list conversion (money you already own)
 
 You already run Zoho Campaigns to active + inactive members. Treat the list as a revenue product.
 
@@ -189,7 +241,7 @@ Include “what you used this year” if you can (lessons downloaded / favourite
 
 ---
 
-## Lever 4 — SEO (your new skill, used commercially)
+## Lever 5 — SEO scale (your new skill, used commercially)
 
 You’re better at SEO than last year. Point it at **money keywords**, not only teaching essays.
 
