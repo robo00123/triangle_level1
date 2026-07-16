@@ -262,6 +262,49 @@ Until (2), (3), and (5) are true, treat product-page indexing as at risk.
 
 ---
 
+## GSC “Blocked due to access forbidden (403)” — your 37.6k export
+
+Export analysed: `gsc-403-coverage-2026-07-16.xlsx` (Issue: Blocked due to access forbidden (403); Sitemap filter: All known pages).
+
+| Finding | Detail |
+|---------|--------|
+| Affected count | ~**37.6k** pages, flat from mid-Apr → mid-Jul 2026 |
+| Sample size | GSC gives **1,000** example URLs |
+| Last crawled | **998 / 1000 in March 2026**; only 1 in Jun + 1 in Jul |
+| Meaning | This is mostly the **March Cloudflare blackout still listed**, not proof Google is getting 403s today |
+| Live test now | `/product/planes-symmetry-3d-shapes/` → **URL is available to Google** (fetch works) |
+
+### What’s in the 1,000 examples
+
+| Bucket | Count | Action |
+|--------|------:|--------|
+| Clean `/product/` URLs | 423 | Want indexed — validate fix + priority recrawl |
+| Clean content posts/pages | 213 | Want indexed — same |
+| Junk `doing_wp_cron` query URLs | 204 | Do **not** chase; reduce discovery |
+| Product-category / shop filters | ~135 | Low value; noindex or discourage crawl later |
+| PDFs / downloads | 20 | Optional |
+| Preview / nonce / wp-content | few | Ignore |
+
+### Exact steps (today)
+
+1. On the GSC 403 issue page, click **VALIDATE FIX**.  
+   That asks Google to recrawl samples and clear the issue if 403s are gone.
+2. Do **not** try to Request indexing on all 37k URLs.
+3. Each day: Request indexing on **10–20 important** clean product/lesson URLs that matter for September (membership path + top GSC click pages first).
+4. Confirm weekly in **Crawl stats** that successful crawls are up and 403s are not spiking again.
+5. Optional cleanup (stops wasting crawl budget):  
+   - Block or noindex URLs with `doing_wp_cron`  
+   - Reduce crawl of faceted `/shop` and `product-tag` filter URLs  
+   - Keep serving 200 to Google on real `/product/` and lesson URLs (your rules already do this)
+
+### Pass criteria for this issue
+
+- Validate Fix → GSC eventually marks the 403 issue as started/fixed (can take days–weeks)  
+- New URL Inspection “Last crawl” dates move past March for money URLs  
+- Monthly impressions climb toward Jan–Feb peak  
+
+---
+
 ## Minimal daily routine until September
 
 | Day | Action |
