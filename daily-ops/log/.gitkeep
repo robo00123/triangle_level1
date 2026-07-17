@@ -1,0 +1,23 @@
+# EOD log — template
+
+Copy to `daily-ops/log/YYYY-MM-DD.md` when closing the day.
+
+**Date:**  
+**Hours worked:**  
+**Energy (1–5):**  
+
+## Task results
+
+| ID | Status | Notes |
+|----|--------|-------|
+| T1 | | |
+| T2 | | |
+
+## Ships (live URLs / files)
+- 
+
+## Carryovers (ordered for tomorrow morning)
+1. 
+
+## Planner notes
+- 
