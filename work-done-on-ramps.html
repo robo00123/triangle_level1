@@ -404,35 +404,33 @@
     <a class="nav prev">Previous</a><a class="nav next">Next</a>
   </section>
 
-  <!-- 7. Work-energy principle -->
+  <!-- 7. Work done by a force at an angle -->
   <section class="slide">
     <div class="left">
-      <p><b>Work done by a force</b></p>
-      <p>A force acting in the direction of motion does positive work. A force that opposes the motion does negative work.</p>
-      <p>When a particle moves a distance d up a slope:</p>
+      <p><b>Work done by a force at an angle</b></p>
+      <p>Only the component of a force in the direction of motion does work.</p>
+      <p>A force of magnitude P N acting at an angle θ to the direction of motion has a component P cos θ in the direction of motion and a component P sin θ perpendicular to it.</p>
+      <p class="rule">Work done = P cos θ × d</p>
+      <p>The perpendicular component does no work because the particle does not move in that direction. For the same reason, the normal reaction R does no work.</p>
+      <p>In Examples 1 to 3 the pulling force acted along the slope, so θ = 0° and the work done was simply force × distance.</p>
+      <p>When a force is inclined to the direction of motion, always:</p>
       <ul>
-        <li>work done by gravity = −mgh</li>
-        <li>work done by friction = −F × d</li>
-        <li>the normal reaction R is perpendicular to the motion, so it does no work.</li>
+        <li>Mark the angle between the force and the direction of motion on your diagram.</li>
+        <li>Resolve the force parallel to the direction of motion.</li>
+        <li>Multiply this component by the distance moved.</li>
       </ul>
-      <p style="margin-top:14px"><b>The work–energy principle</b></p>
-      <p>A particle of mass m moving with speed v has kinetic energy ½mv<sup>2</sup>.</p>
-      <p>The total work done by the forces acting on a particle is equal to its change in kinetic energy.</p>
-      <p class="rule">Total work done = ½mv<sup>2</sup> − ½mu<sup>2</sup></p>
-      <p>A particle that comes to <i>instantaneous rest</i> has v = 0 at that point.</p>
     </div>
     <div class="divider"></div>
     <div class="right">
-      <div class="diagram" data-diagram="energy"></div>
-      <div class="showthat">A particle is projected up the slope with speed u and comes to rest after a distance d. Show that <span style="white-space:nowrap">½mu<sup>2</sup> = mgd(sin α + μ cos α)</span></div>
+      <div class="diagram" data-diagram="angled"></div>
+      <div class="showthat">Show that the work done by a force P, inclined at θ to the horizontal, in pulling a particle a distance d across a horizontal surface is Pd cos θ</div>
       <div class="btns"><button class="show">Show</button><button class="hide">Hide</button></div>
       <div class="sol">
-        <p>R = mg cos α, so F = μR = μmg cos α</p>
-        <p>Work done by gravity = −mgh = −mgd sin α</p>
-        <p>Work done by friction = −F × d = −μmgd cos α</p>
-        <p>Total work done = change in kinetic energy:</p>
-        <p>−mgd sin α − μmgd cos α = 0 − ½mu<sup>2</sup></p>
-        <p>½mu<sup>2</sup> = mgd(sin α + μ cos α)</p>
+        <p>Resolve the force horizontally and vertically.</p>
+        <p>Horizontal component = P cos θ, vertical component = P sin θ</p>
+        <p>The particle moves horizontally, so only P cos θ does work.</p>
+        <p>Work done = horizontal component × distance moved</p>
+        <p>= P cos θ × d = Pd cos θ</p>
       </div>
     </div>
     <div class="brand"><img src="logo.png" alt="" onerror="this.remove()"><div><div class="brand-name">Mr Mathematics</div><div class="brand-tag">Maths Lessons to Engage and Inspire</div></div></div>
@@ -442,30 +440,22 @@
   <!-- 8. Example 4 -->
   <section class="slide ex">
     <div class="q">
-      <p>4. A particle Q of mass 3 kg is projected up a line of greatest slope of a rough plane which is inclined at an angle arcsin [[5/13]] to the horizontal.</p>
-      <p>The coefficient of friction between Q and the plane is 0.2.</p>
-      <p>Q comes to instantaneous rest a distance 4 m up the line of greatest slope.</p>
+      <p>4. A crate is dragged 18 m across a smooth horizontal floor by a rope.</p>
+      <p>The tension in the rope is 32 N and the rope is inclined at 20° to the horizontal.</p>
       <div class="find">
-        <p>Find:</p>
-        <p>a) the work done by gravity</p>
-        <p>b) the work done by friction</p>
-        <p>c) the speed of projection.</p>
+        <p>By modelling the crate as a particle, calculate the work done by the tension.</p>
       </div>
       <div class="btns"><button class="show">Show</button><button class="hide">Hide</button></div>
     </div>
     <div class="diagram" data-diagram="ex4"></div>
     <div class="sol">
-      <div class="mini" data-tri="5,12,13"></div>
-      <p>sin α = [[5/13]], so cos α = [[12/13]] (5, 12, 13 triangle)</p>
-      <p>Vertical height: h = 4 sin α = 4 × [[5/13]] = [[20/13]] m</p>
-      <p><b>a)</b> Gravity opposes the motion, so it does negative work.</p>
-      <p>Work done by gravity = −mgh = −3 × 9.8 × [[20/13]] = −45.2 J (3 s.f.)</p>
-      <p><b>b)</b> R = 3g cos α = 3 × 9.8 × [[12/13]] = 27.13… N</p>
-      <p>F = μR = 0.2 × 27.13… = 5.427… N</p>
-      <p>Work done by friction = −F × d = −5.427… × 4 = −21.7 J (3 s.f.)</p>
-      <p><b>c)</b> Total work done = change in kinetic energy</p>
-      <p>−45.23… − 21.71… = 0 − ½ × 3 × u<sup>2</sup>, so 1.5u<sup>2</sup> = 66.94…</p>
-      <p>u = 6.68 m s<sup>−1</sup> (3 s.f.)</p>
+      <p>The crate moves horizontally, so only the horizontal component of the tension does work.</p>
+      <p>Horizontal component = 32 cos 20° = 30.07… N</p>
+      <p>Work done = horizontal component of force × distance moved</p>
+      <p>= 32 cos 20° × 18</p>
+      <p>= 541.2…</p>
+      <p>The work done by the tension is 541 J (3 s.f.)</p>
+      <p>The vertical component, 32 sin 20°, is perpendicular to the motion, so it does no work.</p>
     </div>
     <div class="brand"><img src="logo.png" alt="" onerror="this.remove()"><div><div class="brand-name">Mr Mathematics</div><div class="brand-tag">Maths Lessons to Engage and Inspire</div></div></div>
     <a class="nav prev">Previous</a>
@@ -487,17 +477,19 @@
   var title = document.querySelector('.title-slide');
   title.insertAdjacentHTML('beforeend', document.querySelector('.brand').outerHTML + '<a class="nav next">Next</a>');
 
-  // ---------- inclined-plane diagrams ----------
-  function rampSVG(o) {
-    var deg = o.angle, a = deg * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
-    var L = o.L || 520, H = L * Math.tan(a), S = L / ca;
-    var up = [ca, -sa], down = [-ca, sa], nrm = [-sa, -ca], into = [sa, ca], g = [0, 1];
-    var els = [], bx0 = 0, by0 = -H, bx1 = L, by1 = 0;
-    function grow(x, y) { bx0 = Math.min(bx0, x); bx1 = Math.max(bx1, x); by0 = Math.min(by0, y); by1 = Math.max(by1, y); }
+  // ---------- SVG drawing helpers shared by the diagrams ----------
+  function canvas() {
+    var els = [], bx0 = Infinity, by0 = Infinity, bx1 = -Infinity, by1 = -Infinity;
     function f(v) { return v.toFixed(1); }
-    function pt(p, k) { k = k || 0; return [p * up[0] + k * nrm[0], p * up[1] + k * nrm[1]]; }
     function add(P, v, t) { return [P[0] + v[0] * t, P[1] + v[1] * t]; }
+    function grow(x, y) { bx0 = Math.min(bx0, x); bx1 = Math.max(bx1, x); by0 = Math.min(by0, y); by1 = Math.max(by1, y); }
     function pts(list) { return list.map(function (P) { grow(P[0], P[1]); return f(P[0]) + ',' + f(P[1]); }).join(' '); }
+
+    function line(P, Q, color, width, dash) {
+      grow(P[0], P[1]); grow(Q[0], Q[1]);
+      els.push('<line x1="' + f(P[0]) + '" y1="' + f(P[1]) + '" x2="' + f(Q[0]) + '" y2="' + f(Q[1]) +
+        '" stroke="' + color + '" stroke-width="' + width + '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>');
+    }
 
     function text(x, y, str, opt) {
       opt = opt || {};
@@ -512,8 +504,7 @@
       }
       els.push('<text x="' + f(x) + '" y="' + f(y) + '" fill="' + (opt.color || COL.ink) + '" font-size="' + size +
         '" text-anchor="' + anchor + '" dominant-baseline="' + base + '"' +
-        (opt.rot ? ' transform="rotate(' + f(opt.rot) + ' ' + f(x) + ' ' + f(y) + ')"' : '') +
-        (opt.italic ? ' font-style="italic"' : '') + '>' + str + '</text>');
+        (opt.rot ? ' transform="rotate(' + f(opt.rot) + ' ' + f(x) + ' ' + f(y) + ')"' : '') + '>' + str + '</text>');
     }
 
     function head(E, d, color, size) {
@@ -523,16 +514,12 @@
 
     function arrow(Sp, d, len, color, opt) {
       opt = opt || {};
-      var E = add(Sp, d, len), hs = opt.head || 17, lineEnd = add(E, d, -hs * 0.7);
-      grow(Sp[0], Sp[1]);
-      els.push('<line x1="' + f(Sp[0]) + '" y1="' + f(Sp[1]) + '" x2="' + f(lineEnd[0]) + '" y2="' + f(lineEnd[1]) +
-        '" stroke="' + color + '" stroke-width="' + (opt.width || 3.5) + '"' + (opt.dashed ? ' stroke-dasharray="10 7"' : '') + '/>');
+      var E = add(Sp, d, len), hs = opt.head || 17;
+      line(Sp, add(E, d, -hs * 0.7), color, opt.width || 3.5, opt.dashed ? '10 7' : '');
       head(E, d, color, hs);
       if (!opt.label) return;
       var P, anchor, base;
-      if (opt.mid) {
-        P = add(add(Sp, d, len / 2), nrm, 16); anchor = 'middle'; base = 'auto';
-      } else if (opt.side) {
+      if (opt.side) {
         P = [E[0] + 10, E[1] - 12]; anchor = 'start'; base = 'central';
       } else {
         P = add(E, d, opt.gap || 14);
@@ -540,71 +527,90 @@
         base = d[1] > 0.35 ? 'hanging' : d[1] < -0.35 ? 'auto' : 'central';
       }
       if (opt.dx) P[0] += opt.dx;
-      if (opt.dy) P[1] += opt.dy;
       text(P[0], P[1], opt.label, { color: color, size: opt.size || 26, anchor: opt.anchor || anchor, base: opt.base || base });
     }
 
-    // dimension line with arrowheads at both ends and end ticks
-    function dim(P1, P2, label, labelAt, opt) {
-      opt = opt || {};
+    // dimension line with arrowheads and end ticks
+    function dim(P1, P2, label, labelAt) {
       var d = [P2[0] - P1[0], P2[1] - P1[1]], len = Math.hypot(d[0], d[1]);
       d = [d[0] / len, d[1] / len];
       var p = [-d[1], d[0]];
-      [P1, P2].forEach(function (P) {
-        var a1 = add(P, p, 9), a2 = add(P, p, -9);
-        els.push('<line x1="' + f(a1[0]) + '" y1="' + f(a1[1]) + '" x2="' + f(a2[0]) + '" y2="' + f(a2[1]) + '" stroke="#333" stroke-width="2"/>');
-      });
-      var s1 = add(P1, d, 8), s2 = add(P2, d, -8);
-      grow(P1[0], P1[1]); grow(P2[0], P2[1]);
-      els.push('<line x1="' + f(s1[0]) + '" y1="' + f(s1[1]) + '" x2="' + f(s2[0]) + '" y2="' + f(s2[1]) + '" stroke="#333" stroke-width="2"/>');
+      [P1, P2].forEach(function (P) { line(add(P, p, 9), add(P, p, -9), '#333', 2); });
+      line(add(P1, d, 8), add(P2, d, -8), '#333', 2);
       head(P1, [-d[0], -d[1]], '#333', 12);
       head(P2, d, '#333', 12);
-      text(labelAt[0], labelAt[1], label, { size: opt.size || 24, rot: opt.rot, anchor: opt.anchor, color: opt.color });
+      text(labelAt[0], labelAt[1], label, { size: 26 });
     }
 
-    function block(p, s, opt) {
-      opt = opt || {};
-      var c = [pt(p, 0), pt(p + s, 0), pt(p + s, s), pt(p, s)];
-      els.push('<polygon points="' + pts(c) + '" fill="' + (opt.ghost ? 'none' : '#fff') + '" stroke="' + COL.W +
-        '" stroke-width="3" stroke-linejoin="round"' + (opt.ghost ? ' stroke-dasharray="8 6"' : '') + '/>');
-      if (opt.label) { var C = pt(p + s / 2, s / 2); text(C[0], C[1], opt.label, { color: COL.W, size: 19, rot: -deg }); }
-      return { front: pt(p + s, s / 2), rear: pt(p, s / 2), top: pt(p + s / 2, s), centre: pt(p + s / 2, s / 2), base: pt(p + s / 2, 0) };
+    // angle arc at O from the direction ang0 to ang1 (degrees, anticlockwise), labelled outside the arc;
+    // labelAt is how far round the arc the label sits (0.5 = halfway)
+    function arc(O, r, ang0, ang1, label, labelAt) {
+      var a0 = ang0 * Math.PI / 180, a1 = ang1 * Math.PI / 180, am = a0 + (a1 - a0) * (labelAt || 0.5);
+      var P = [O[0] + r * Math.cos(a0), O[1] - r * Math.sin(a0)], Q = [O[0] + r * Math.cos(a1), O[1] - r * Math.sin(a1)];
+      grow(P[0], P[1]); grow(Q[0], Q[1]);
+      els.push('<path d="M ' + f(P[0]) + ' ' + f(P[1]) + ' A ' + r + ' ' + r + ' 0 0 0 ' + f(Q[0]) + ' ' + f(Q[1]) + '" fill="none" stroke="' + COL.ink + '" stroke-width="2"/>');
+      text(O[0] + (r + 10) * Math.cos(am), O[1] - (r + 10) * Math.sin(am), label, { size: 26, anchor: 'start' });
     }
+
+    function svg() {
+      var pad = 8;
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + f(bx0 - pad) + ' ' + f(by0 - pad) + ' ' + f(bx1 - bx0 + 2 * pad) + ' ' + f(by1 - by0 + 2 * pad) +
+        '" font-family="Arial, Helvetica, sans-serif">' + els.join('') + '</svg>';
+    }
+
+    return { f: f, add: add, pts: pts, line: line, text: text, arrow: arrow, dim: dim, arc: arc, svg: svg,
+      push: function (str) { els.push(str); } };
+  }
+
+  // ---------- inclined-plane diagrams ----------
+  function rampSVG(o) {
+    var c = canvas(), deg = o.angle, a = deg * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
+    var L = o.L || 520, H = L * Math.tan(a), S = L / ca;
+    var up = [ca, -sa], nrm = [-sa, -ca];
+    var dirs = { up: up, down: [-ca, sa], n: nrm, into: [sa, ca], g: [0, 1] };
+    function pt(p, k) { k = k || 0; return [p * up[0] + k * nrm[0], p * up[1] + k * nrm[1]]; }
 
     // ramp, right angle and angle arc
-    els.push('<polygon points="' + pts([[0, 0], [L, 0], [L, -H]]) + '" fill="' + COL.ramp + '" stroke="' + COL.ink + '" stroke-width="3" stroke-linejoin="round"/>');
-    els.push('<polyline points="' + pts([[L - 20, 0], [L - 20, -20], [L, -20]]) + '" fill="none" stroke="' + COL.ink + '" stroke-width="2"/>');
-    var r = o.arc || 70;
-    els.push('<path d="M ' + r + ' 0 A ' + r + ' ' + r + ' 0 0 0 ' + f(r * ca) + ' ' + f(-r * sa) + '" fill="none" stroke="' + COL.ink + '" stroke-width="2"/>');
-    var am = a / 2;
-    text((r + 10) * Math.cos(am), -(r + 10) * Math.sin(am), o.alpha || 'α', { size: 26, anchor: 'start' });
+    c.push('<polygon points="' + c.pts([[0, 0], [L, 0], [L, -H]]) + '" fill="' + COL.ramp + '" stroke="' + COL.ink + '" stroke-width="3" stroke-linejoin="round"/>');
+    c.push('<polyline points="' + c.pts([[L - 20, 0], [L - 20, -20], [L, -20]]) + '" fill="none" stroke="' + COL.ink + '" stroke-width="2"/>');
+    c.arc([0, 0], 70, 0, deg, o.alpha || 'α');
 
     // side labels, like the triangle templates (distance d along the slope, height h)
     if (o.sides) {
       var hp = pt(S * 0.86, 26);
-      text(hp[0], hp[1], o.sides.hyp, { size: 30, base: 'auto' });
-      text(L + 14, -H / 2, o.sides.vert, { size: 30, anchor: 'start' });
+      c.text(hp[0], hp[1], o.sides.hyp, { size: 30, base: 'auto' });
+      c.text(L + 14, -H / 2, o.sides.vert, { size: 30, anchor: 'start' });
     }
 
-    var b = o.block, s = b.s || 64, B = block(b.p, s, { label: b.label });
-    var here = B;
-    var dirs = { up: up, down: down, n: nrm, into: into, g: g };
-    if (o.ghost) {
-      block(o.ghost.p, s, { ghost: true });
-      var gt = pt(o.ghost.p + s / 2, s + 16);
-      text(gt[0], gt[1], o.ghost.label, { color: COL.R, size: 24, base: 'auto' });
-      if (o.ghost.dim) {
-        var k2 = -26;
-        dim(pt(b.p + s, k2), pt(o.ghost.p + s, k2), o.ghost.dim, pt((b.p + o.ghost.p) / 2 + s, k2 - 22), { rot: -deg });
-      }
-    }
-    (o.forces || []).forEach(function (F) {
-      arrow(here[F.on], dirs[F.dir], F.len, F.color, F);
-    });
+    var p = o.block.p, s = o.block.s || 64;
+    c.push('<polygon points="' + c.pts([pt(p, 0), pt(p + s, 0), pt(p + s, s), pt(p, s)]) + '" fill="#fff" stroke="' + COL.W + '" stroke-width="3" stroke-linejoin="round"/>');
+    if (o.block.label) { var C = pt(p + s / 2, s / 2); c.text(C[0], C[1], o.block.label, { color: COL.W, size: 19, rot: -deg }); }
+    var at = { front: pt(p + s, s / 2), rear: pt(p, s / 2), top: pt(p + s / 2, s), centre: pt(p + s / 2, s / 2), base: pt(p + s / 2, 0) };
 
-    var pad = 8;
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + f(bx0 - pad) + ' ' + f(by0 - pad) + ' ' + f(bx1 - bx0 + 2 * pad) + ' ' + f(by1 - by0 + 2 * pad) +
-      '" font-family="Arial, Helvetica, sans-serif">' + els.join('') + '</svg>';
+    (o.forces || []).forEach(function (F) { c.arrow(at[F.on], dirs[F.dir], F.len, F.color, F); });
+    return c.svg();
+  }
+
+  // ---------- particle pulled across a horizontal surface by a force at an angle ----------
+  function flatSVG(o) {
+    var c = canvas(), a = o.angle * Math.PI / 180, dir = [Math.cos(a), -Math.sin(a)];
+    var x0 = 40, bw = 150, bh = 80, len = 210, O = [x0 + bw, -bh / 2], E = c.add(O, dir, len), foot = [E[0], O[1]];
+    c.line([0, 0], [o.W || 640, 0], COL.ink, 3);
+    c.push('<polygon points="' + c.pts([[x0, 0], [x0 + bw, 0], [x0 + bw, -bh], [x0, -bh]]) + '" fill="#fff" stroke="' + COL.W + '" stroke-width="3" stroke-linejoin="round"/>');
+    if (o.comps) {
+      // components drawn as a right-angled triangle under the force
+      c.line(O, foot, COL.T, 2.5, '8 6');
+      c.line(foot, E, COL.T, 2.5, '8 6');
+      c.push('<polyline points="' + c.pts([[foot[0] - 14, foot[1]], [foot[0] - 14, foot[1] - 14], [foot[0], foot[1] - 14]]) + '" fill="none" stroke="' + COL.T + '" stroke-width="1.5"/>');
+      c.text((O[0] + foot[0]) / 2 + 20, O[1] + 10, o.label + ' cos θ', { color: COL.T, size: 24, base: 'hanging' });
+      c.text(foot[0] + 12, (O[1] + E[1]) / 2, o.label + ' sin θ', { color: COL.T, size: 24, anchor: 'start' });
+    } else {
+      c.line(O, [foot[0] + 30, O[1]], '#555', 2, '8 6');
+    }
+    c.arc(O, 80, 0, o.angle, o.theta, 0.4);
+    c.arrow(O, dir, len, COL.T, { label: o.label });
+    c.dim([x0, 34], [x0 + 500, 34], o.dist, [x0 + 250, 64]);
+    return c.svg();
   }
 
   // right-angled triangle for finding exact trig ratios
@@ -622,7 +628,6 @@
       '</svg>';
   }
 
-  var ms1 = 'm s<tspan dy="-10" font-size="16">−1</tspan>';
   var D = {
     title: { angle: 30, L: 560, block: { p: 250, s: 70 }, forces: [
       { on: 'front', dir: 'up', len: 110, color: COL.T, label: 'T' },
@@ -638,12 +643,6 @@
       { on: 'rear', dir: 'down', len: 85, color: COL.F, label: 'F' },
       { on: 'top', dir: 'n', len: 85, color: COL.R, label: 'R' },
       { on: 'base', dir: 'g', len: 90, color: COL.W, label: 'mg', side: true }] },
-    energy: { angle: 24, L: 600, block: { p: 180, s: 64 },
-      ghost: { p: 470, label: 'v = 0', dim: 'd' }, forces: [
-      { on: 'front', dir: 'up', len: 95, color: COL.T, label: 'u ' + ms1, mid: true, size: 22 },
-      { on: 'rear', dir: 'down', len: 75, color: COL.F, label: 'F' },
-      { on: 'top', dir: 'n', len: 75, color: COL.R, label: 'R' },
-      { on: 'base', dir: 'g', len: 60, color: COL.W, label: 'mg', side: true }] },
     ex1: { angle: Math.atan(8 / 15) * 180 / Math.PI, L: 540, block: { p: 220, s: 64, label: '6 kg' }, forces: [
       { on: 'front', dir: 'up', len: 100, color: COL.T, label: 'T' },
       { on: 'rear', dir: 'down', len: 85, color: COL.F, label: 'F' },
@@ -658,15 +657,15 @@
       { on: 'front', dir: 'up', len: 100, color: COL.T, label: 'P' },
       { on: 'rear', dir: 'down', len: 85, color: COL.F, label: 'F' },
       { on: 'top', dir: 'n', len: 85, color: COL.R, label: 'R' },
-      { on: 'base', dir: 'g', len: 80, color: COL.W, label: '4g', side: true }] },
-    ex4: { angle: Math.asin(5 / 13) * 180 / Math.PI, L: 620, block: { p: 180, s: 64, label: '3 kg' },
-      ghost: { p: 500, label: 'v = 0', dim: '4 m' }, forces: [
-      { on: 'front', dir: 'up', len: 100, color: COL.T, label: 'u ' + ms1, mid: true, size: 22 },
-      { on: 'rear', dir: 'down', len: 75, color: COL.F, label: 'F' },
-      { on: 'top', dir: 'n', len: 75, color: COL.R, label: 'R' },
-      { on: 'base', dir: 'g', len: 58, color: COL.W, label: '3g', side: true }] }
+      { on: 'base', dir: 'g', len: 80, color: COL.W, label: '4g', side: true }] }
   };
-  document.querySelectorAll('[data-diagram]').forEach(function (el) { el.innerHTML = rampSVG(D[el.dataset.diagram]); });
+  var FLAT = {
+    angled: { angle: 30, theta: 'θ', label: 'P', comps: true, dist: 'd' },
+    ex4: { angle: 20, theta: '20°', label: '32 N', dist: '18 m' }
+  };
+  document.querySelectorAll('[data-diagram]').forEach(function (el) {
+    var k = el.dataset.diagram; el.innerHTML = D[k] ? rampSVG(D[k]) : flatSVG(FLAT[k]);
+  });
   document.querySelectorAll('[data-tri]').forEach(function (el) {
     var t = el.dataset.tri.split(','); el.innerHTML = triSVG(+t[0], +t[1], +t[2]);
   });
