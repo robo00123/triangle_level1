@@ -2,6 +2,10 @@ TITLE
 Rebounding Particles Against Inclined Walls: Scalar Product Proof | A Level Further Mechanics
 
 
+TAGS
+rebounding particles, inclined walls, oblique impact, oblique impact with a wall, oblique collisions, scalar product, dot product, scalar product proof, coefficient of restitution, Newton's law of restitution, rebound velocity, smooth wall, collisions in two dimensions, further mechanics, further mechanics 1, A level further maths, further maths, A level maths, mechanics, vectors, unit vector, Mr Mathematics
+
+
 DESCRIPTION
 Why is u · w = v · w and −e u · I = v · I when a particle rebounds off a smooth wall that isn't in the i or j direction? This animated lesson proves both results with the scalar product, then uses them to find a rebound velocity without working out a single angle. It's for A level Further Maths (Further Mechanics 1).
 

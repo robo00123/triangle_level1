@@ -19,7 +19,7 @@ narration).
 | `narration.mp3` | The ElevenLabs narration |
 | `impact_audio.mp3`, `impact_cues.json` | The narration with the pauses added, and the time of every script line and word (made by `sync_impact.py`) |
 | `impact_title.png` | The lesson title slide, *Rebounding particles against inclined walls*, shown at the start |
-| `youtube.txt` | The YouTube title, description, chapters and hashtags (chapter times are from the synced narration) |
+| `youtube.txt` | The YouTube title, tags, description, chapters and hashtags (chapter times are from the synced narration) |
 
 ## Structure
 
