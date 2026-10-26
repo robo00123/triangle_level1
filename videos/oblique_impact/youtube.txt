@@ -1,0 +1,35 @@
+TITLE
+Rebounding Particles Against Inclined Walls: Scalar Product Proof | A Level Further Mechanics
+
+
+DESCRIPTION
+Why is u · w = v · w and −e u · I = v · I when a particle rebounds off a smooth wall that isn't in the i or j direction? This animated lesson proves both results with the scalar product, then uses them to find a rebound velocity without working out a single angle. It's for A level Further Maths (Further Mechanics 1).
+
+Full lesson and worksheet: https://mr-mathematics.com
+
+In this video you will:
+• split the velocities along and perpendicular to the wall, using a smooth wall and Newton's law of restitution
+• see the scalar product as the shadow of one vector on another, and why it turns negative past 90°
+• slide u tail to tail with ŵ to prove u · w = v · w
+• use the unit circle to show cos(90° + α) = −sin α, then prove −e u · I = v · I
+• apply both results to a sphere hitting a wall parallel to 3i + 4j
+
+The example: a smooth sphere moving with velocity (11i − 2j) m s⁻¹ hits a smooth vertical wall parallel to 3i + 4j. The coefficient of restitution is ½. Find the velocity of the sphere after the impact.
+
+Chapters
+0:00 Introduction
+0:18 The set-up: a sphere hits an inclined wall
+1:19 What happens in the collision
+2:16 Reminder: the scalar product
+3:06 Along the wall: proving u · w = v · w
+4:24 Perpendicular to the wall: u · Î and cos(90° + α)
+5:32 Perpendicular to the wall: v · Î and cos(90° − β)
+6:16 Newton's law of restitution: proving −e u · I = v · I
+7:05 The two results
+7:41 Example: a wall parallel to 3i + 4j
+9:14 Full lesson and worksheet
+
+Mr Mathematics: maths lessons to engage and inspire
+https://mr-mathematics.com
+
+#FurtherMaths #ALevelMaths #Mechanics #ScalarProduct #Collisions
