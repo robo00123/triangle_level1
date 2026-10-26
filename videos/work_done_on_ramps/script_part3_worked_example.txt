@@ -1,0 +1,25 @@
+Let's try an example together.
+
+A rough plane is inclined at an angle alpha to the horizontal, where tan alpha is 8 over 15.
+
+A box of mass 6 kilograms is pulled at a constant speed up a line of greatest slope. The coefficient of friction between the box and the plane is 0.4.
+
+First, we need the size of the frictional force. Then the box moves 20 metres up the plane, and we need the work done against friction and against gravity.
+
+Tan alpha is 8 over 15, so let's draw a right-angled triangle with sides 8 and 15. Pythagoras gives a hypotenuse of 17. So sine alpha is 8 over 17, and cos alpha is 15 over 17.
+
+Resolve perpendicular to the plane. R equals 6 g cos alpha, which is 6 times 9.8 times 15 over 17. That's 51.88 newtons.
+
+The box is moving, so friction is limiting. Friction is 0.4 times 51.88, which is 20.8 newtons to 3 significant figures.
+
+Now let's watch the box move 20 metres up the slope.
+
+Friction acts the whole way up, so the work done against friction is 20.75 times 20. That's 415 joules to 3 significant figures.
+
+For gravity, we need the height gained. The box rises 20 times sine alpha, which is 20 times 8 over 17. That's 9.41 metres.
+
+So the work done against gravity is m g h. 6 times 9.8 times 9.41 is 553 joules to 3 significant figures.
+
+Altogether, the pulling force does both jobs. That's 415 plus 553, which is 968 joules of work.
+
+Does it make sense that more work goes against gravity than against friction? Yes. The component of the weight down the slope is about 27.7 newtons. That's bigger than the 20.8 newtons of friction.

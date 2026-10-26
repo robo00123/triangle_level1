@@ -1,0 +1,44 @@
+# Work done on ramps: video tutorial
+
+Built in the same style as the other Mr Mathematics lesson videos (`make_video.py` holds the shared colours,
+arrows, text and title-card helpers, copied unchanged from the reference code).
+
+| File | What it is |
+|---|---|
+| `ramps_script.py` | The narration: one `(key, sentence)` pair per animation cue |
+| `script.txt`, `script_part*.txt` | The narration as plain text for ElevenLabs (whole, and in four parts under 2,500 characters) |
+| `make_ramps.py` | The animation, synced to the cues |
+| `sync_ramps.py` | Lines the animation up with the recorded narration |
+| `ramps_title.png` | The lesson title slide, shown at the start |
+
+## Structure
+
+1. Opening: the lesson title slide
+2. Work done: a quick reminder (work done = force × distance, the work bar)
+3. Work done against gravity: the box rises *h* as it moves *d*, resolve the weight, then *mg* sin *α* × *d* = *mgh*
+4. Only the vertical height matters: lifting straight up vs pulling up a slope, same work
+5. Work done against friction: work grows steadily with distance, *R* = *mg* cos *α*, *Fr* = *μR*, then *μmg* cos *α* × *d*
+6. Pulling at a constant speed: *T* = *Fr* + *mg* sin *α*, so *T* × *d* = *μR* × *d* + *mgh* (stacked work bars)
+7. The four steps for ramp problems
+8. Worked example (lesson Example 1): 6 kg box, tan *α* = 8/15, *μ* = 0.4, 20 m
+9. Your turn (lesson Example 2): 1.5 kg parcel, arctan 3/4, 4 m, 50 J, find *μ*, with the pause banner
+10. Call to action card
+
+## Making the video
+
+```bash
+pip install cairosvg faster-whisper            # Montserrat and Liberation Sans must be installed as system fonts
+
+python ramps_script.py                         # writes script.txt and script_part1..4 for ElevenLabs
+# record the narration in ElevenLabs, as one MP3 or as the four parts
+
+python sync_ramps.py narration.mp3             # or: python sync_ramps.py part1.mp3 part2.mp3 part3.mp3 part4.mp3
+python make_ramps.py cues                      # check the timings
+python make_ramps.py test 100 330 450          # single frames at those times, to check the layout
+python make_ramps.py                           # render every frame
+python make_ramps.py encode                    # ramps.mp4, with ramps_audio.mp3 if it exists
+```
+
+Without `ramps_cues.json` the animation is timed from an estimated speaking rate (2.5 words per second), which is
+how the silent draft was made. To nudge a cue by hand, add `ramps_cues_override.json`, for example
+`{"wwf": 1.5}` to move a cue 1.5 seconds later.

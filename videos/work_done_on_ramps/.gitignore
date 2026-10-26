@@ -1,0 +1,5 @@
+frames/
+frames_ramps/
+rtest_*.png
+*.mp4
+__pycache__/

@@ -1,0 +1,29 @@
+Now it's your turn.
+
+A rough surface is inclined at an angle of arc tan 3 over 4 to the horizontal. A parcel of mass 1.5 kilograms is pulled 4 metres at a constant speed up the surface, by a force acting along a line of greatest slope.
+
+The only resistances to the motion are friction and gravity. The work done by the force is 50 joules.
+
+Find the coefficient of friction between the parcel and the surface.
+
+Pause the video now and have a go. Think about how the 50 joules is shared between gravity and friction. Press play when you're ready to check your answer.
+
+Right, let's go through it.
+
+Tan alpha is 3 over 4, so this is a 3, 4, 5 triangle. Sine alpha is 3 fifths, and cos alpha is 4 fifths.
+
+The parcel moves 4 metres along the slope, so it rises 4 times 3 fifths. That's 2.4 metres.
+
+The work done against gravity is m g h. That's 1.5 times 9.8 times 2.4, which is 35.28 joules.
+
+The force does 50 joules of work in total. Gravity takes 35.28 joules, so the other 14.72 joules goes into overcoming friction.
+
+Now resolve perpendicular to the slope. R is 1.5 g cos alpha, which is 11.76 newtons.
+
+The work done against friction is mu R multiplied by d. So 14.72 equals mu times 11.76 times 4, which is 47.04 mu.
+
+Divide both sides by 47.04, and mu is 0.313 to 3 significant figures.
+
+Does that make sense? A coefficient of friction of 0.313 is a sensible value for a rough surface. A common mistake is to use all 50 joules for friction. That gives a coefficient bigger than 1, which should make you suspicious. Always take away the work done against gravity first.
+
+That's work done on ramps. You'll find the full lesson and the worksheet at Mr Mathematics dot com, and the link to the worksheet is in the description below. Thanks for watching.

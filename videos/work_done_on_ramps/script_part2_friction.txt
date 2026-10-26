@@ -1,0 +1,23 @@
+Now let's look at friction. This time, the slope is rough.
+
+As the box moves up the slope, friction acts down the slope, against the motion. Friction stays the same size all the way up, so the work done against it grows steadily with every metre.
+
+To find the friction, we need the normal reaction, R. Resolve perpendicular to the slope. The box doesn't move into the slope or away from it, so R balances m g cos alpha.
+
+The box is moving, so friction is limiting. Friction equals mu R, which is mu m g cos alpha.
+
+The work done against friction is the friction multiplied by the distance moved. That's mu m g cos alpha, multiplied by d.
+
+Notice the difference. For gravity, we use the vertical height. For friction, we use the full distance along the slope, because friction acts the whole way.
+
+Now let's put them together. A force T pulls the box up the rough slope at a constant speed.
+
+Constant speed means there's no acceleration, so the forces along the slope balance. T equals the friction plus m g sine alpha.
+
+The work done by T is T multiplied by d. Multiplying out gives mu m g d cos alpha, plus m g d sine alpha.
+
+That's the work done against friction plus the work done against gravity. Watch the bars. The work done by T is exactly the two added together.
+
+And that's the formula from the start. T times d equals mu R times d, plus m g h.
+
+So when you solve a problem on a ramp, follow these four steps. Draw a force diagram. Find sine alpha and cos alpha from a right-angled triangle. Resolve perpendicular to the slope to find R. Then use the vertical height for gravity, and the full distance for friction.

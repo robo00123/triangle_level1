@@ -1,0 +1,25 @@
+Welcome to this lesson on work done on ramps. When we pull a box up a rough slope, the pulling force has two jobs to do. It lifts the box against gravity, and it overcomes friction. By the end of this video, you'll see exactly where each part of this formula comes from.
+
+Let's start with a quick reminder. When a force moves an object, it does work. The work done is the force multiplied by the distance moved in the direction of the force.
+
+Work done is measured in joules. Watch the bar fill up as the box moves. Twice the distance means twice the work.
+
+First, work done against gravity. Here's a box being pulled a distance d up a smooth slope.
+
+As the box moves along the slope, it also rises. The vertical height it gains is h.
+
+Gravity pulls straight down with the weight, m g. The box is moving along the slope, so let's resolve the weight into two components.
+
+One component, m g cos alpha, pushes into the slope. The other, m g sine alpha, acts down the slope, directly against the motion. That's the part we have to work against.
+
+So the work done against gravity is m g sine alpha, multiplied by the distance d.
+
+Now look at the triangle. Sine alpha is the opposite over the hypotenuse, which is h over d. Rearranging, d sine alpha is just h.
+
+So the work done against gravity is simply m g h. That's the weight multiplied by the vertical height gained.
+
+Here's why that's so useful. On the left, we lift the box straight up through a height h. On the right, we pull it up a slope to the same height.
+
+Lifting straight up takes the full weight, but over a short distance. Pulling up the slope takes a smaller force, but over a longer distance.
+
+Watch the work bars. They finish at exactly the same level. Only the vertical height matters, not the route the box takes.
