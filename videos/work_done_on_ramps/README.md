@@ -12,6 +12,7 @@ arrows, text and title-card helpers, copied unchanged from the reference code).
 | `narration.mp3` | The ElevenLabs narration |
 | `ramps_audio.mp3`, `ramps_cues.json` | The narration with the pause gap, and the time of every script line and word (made by `sync_ramps.py`) |
 | `ramps_title.png` | The lesson title slide, shown at the start |
+| `youtube.txt` | The YouTube title, description, chapters and hashtags (chapter times are from the synced narration) |
 
 ## Structure
 

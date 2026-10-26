@@ -1,0 +1,41 @@
+TITLE
+Introducing Work Done: Force, Gravity and Friction | A Level Further Mechanics
+
+
+DESCRIPTION
+What is work done, and how do you calculate it? This animated lesson shows where W = Fs comes from, then uses it to find the work done against gravity and against friction. It's for A level Further Maths (Further Mechanics 1).
+
+Full lesson and worksheet: https://mr-mathematics.com
+
+In this video you will:
+• see why a force does work only when it moves an object
+• watch the work double when the force or the distance doubles, which gives W = Fs
+• lift a box at a steady speed to show that the work done against gravity is mgh
+• push a crate across a rough floor to show that the work done against friction is μmg × s
+• work through four examples, then try a question yourself
+
+The examples:
+1. A crate pushed 12 m by a constant force of 25 N
+2. A 12 kg box lifted vertically through 5 m
+3. Finding the height of a tower from 24 kJ of work done on a 60 kg crate
+4. Finding the coefficient of friction for an 8 kg crate pushed 6 m
+Your turn: the work done against friction on a 5 kg crate moving at 4 m s⁻¹ for 3 seconds
+
+Chapters
+0:00 Introduction
+0:15 What is work done?
+0:53 How much work is done? W = Fs and the joule
+1:42 Example 1: work done by a force
+2:09 Work done against gravity: W = mgh
+2:27 Example 2: lifting a box
+2:52 Example 3: finding the height of a tower
+3:47 Work done against friction: W = μmg × s
+4:17 Example 4: finding the coefficient of friction
+5:03 Your turn
+5:37 Solution and a common mistake
+6:25 Full lesson and worksheet
+
+Mr Mathematics: maths lessons to engage and inspire
+https://mr-mathematics.com
+
+#WorkDone #FurtherMaths #ALevelMaths #Mechanics #Friction

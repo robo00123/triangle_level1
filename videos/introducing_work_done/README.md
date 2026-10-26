@@ -13,6 +13,7 @@ banner, section cards and the call to action) and `sync.py` (lines the animation
 | `narration.mp3` | The ElevenLabs narration |
 | `work_audio.mp3`, `work_cues.json` | The narration with the pauses added, and the time of every script line and word (made by `sync_work.py`) |
 | `work_title.png` | The lesson title slide, shown at the start |
+| `youtube.txt` | The YouTube title, description, chapters and hashtags (chapter times are from the synced narration) |
 
 ## Structure
 

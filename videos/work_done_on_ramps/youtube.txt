@@ -1,0 +1,36 @@
+TITLE
+Work Done on Ramps: Against Friction and Gravity | A Level Further Mechanics
+
+
+DESCRIPTION
+When you pull a box up a rough slope, the pulling force does two jobs: it lifts the box against gravity and it overcomes friction. This animated lesson shows where each part of Td = μRd + mgh comes from. It's for A level Further Maths (Further Mechanics 1).
+
+Full lesson and worksheet: https://mr-mathematics.com
+
+In this video you will:
+• resolve the weight along the slope to show that the work done against gravity is mg sin α × d, which is mgh
+• see why only the vertical height matters, not the route the box takes
+• find the friction from R = mg cos α and show that the work done against friction is μR × d
+• combine the two to get Td = μRd + mgh for a box pulled at a constant speed
+• follow four steps for any ramp problem, work through an example, then try a question yourself
+
+The example: a 6 kg box pulled 20 m up a rough plane inclined at α, where tan α = 8/15 and μ = 0.4. Find the work done against friction and against gravity.
+Your turn: a 1.5 kg parcel pulled 4 m up a rough surface inclined at arctan 3/4, with 50 J of work done. Find the coefficient of friction.
+
+Chapters
+0:00 Introduction
+0:16 Reminder: what is work done?
+0:34 Work done against gravity: mg sin α × d = mgh
+1:31 Why only the vertical height matters
+1:56 Work done against friction: μR × d
+2:49 Putting it together: Td = μRd + mgh
+3:31 Four steps for ramp problems
+3:48 Worked example: a box pulled up a rough slope
+5:50 Your turn
+6:32 Solution and a common mistake
+7:59 Full lesson and worksheet
+
+Mr Mathematics: maths lessons to engage and inspire
+https://mr-mathematics.com
+
+#WorkDone #FurtherMaths #ALevelMaths #Mechanics #InclinedPlane
