@@ -343,7 +343,9 @@ class Ramp:
             q0, q1 = self.P(s0 - self.bw / 2 + i * (s1 - s0) / ticks, k - 10), self.P(s0 - self.bw / 2 + i * (s1 - s0) / ticks, k + 10)
             out.append(f'<line x1="{q0[0]}" y1="{q0[1]}" x2="{q1[0]}" y2="{q1[1]}" stroke="{GOLD}" stroke-width="5"/>')
         m = self.P((s0 + s1) / 2 - self.bw / 2, k + 30)
-        out.append(label(m[0], m[1] + 12, lab or D_, 38, INK, "middle"))
+        lo = clamp((s1 - s0 - 90) / 60)          # the label waits until the arrow is long enough to hold it
+        if lo > 0:
+            out.append(label(m[0], m[1] + 12, lab or D_, 38, INK, "middle", lo))
         out.append('</g>')
         return "".join(out)
 
