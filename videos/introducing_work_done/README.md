@@ -10,6 +10,8 @@ banner, section cards and the call to action) and `sync.py` (lines the animation
 | `script.txt`, `script_part*.txt` | The narration as plain text for ElevenLabs (whole, and in four parts under 2,500 characters) |
 | `make_work.py` | The animation |
 | `sync_work.py` | Lines the animation up with the recorded narration, word by word |
+| `narration.mp3` | The ElevenLabs narration |
+| `work_audio.mp3`, `work_cues.json` | The narration with the pauses added, and the time of every script line and word (made by `sync_work.py`) |
 | `work_title.png` | The lesson title slide, shown at the start |
 
 ## Structure
