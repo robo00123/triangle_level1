@@ -1,139 +1,210 @@
-"""Line the animation up with the ElevenLabs narration.
+"""Line the animation up with the ElevenLabs narration, word by word.
 
     python sync_ramps.py narration.mp3                      # one file
     python sync_ramps.py part1.mp3 part2.mp3 part3.mp3 part4.mp3
 
-Transcribes the audio with faster-whisper (word timestamps), matches every script line to the words heard,
-inserts PAUSE_GAP seconds of silence after the pause line, and writes
+Uses pocketsphinx (pip install pocketsphinx). Its English model comes with the package, so nothing is downloaded.
+1. Recognise the narration in chunks between pauses.
+2. Match the recognised words to the script to find roughly where each line is spoken.
+3. Snap each line to the pauses around it and force-align its text to that stretch of audio, which times every word.
+4. Add PAUSE_GAP seconds of silence after the pause line.
+
+Writes
     ramps_audio.mp3   the narration with the pause gap, used by `python make_ramps.py encode`
-    ramps_cues.json   start and duration of every script line, used by make_ramps.py
-An optional ramps_cues_override.json nudges cues by hand: {"wwf": 1.5} moves a cue 1.5 s later,
-{"wwf": [350.2, 9.0]} sets its start and duration.
+    ramps_cues.json   {key: [start, duration], "_words": {key: [start of each script word..., end of line]}, "_end": [length, 0]}
+An optional ramps_cues_override.json moves whole lines by hand: {"wwf": 1.5} plays line wwf's animation 1.5 s later.
 """
 import difflib, json, os, re, subprocess, sys, tempfile
 from ramps_script import SCRIPT, PAUSE_KEYS, PAUSE_GAP
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+SR = 16000
+# pronunciations missing from the pocketsphinx dictionary, and the voice's readings of cos and mu
+EXTRA_WORDS = {"frictional": "F R IH K SH AH N AH L", "hypotenuse": "HH AY P AA T AH N UW S", "newtons": "N UW T AH N Z",
+               "resistances": "R IH Z IH S T AH N S AH Z", "cos(2)": "K AA Z", "mu(2)": "M Y UW"}
 
-NUMBERS = {w: str(i) for i, w in enumerate(
-    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen "
-    "seventeen eighteen nineteen twenty".split())}
-NUMBERS.update({"thirty": "30", "forty": "40", "fifty": "50", "hundred": "100"})
+# ------------------------------------------------------------------ the script as it is spoken
+ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+TENS = {2: "twenty", 3: "thirty", 4: "forty", 5: "fifty", 6: "sixty", 7: "seventy", 8: "eighty", 9: "ninety"}
 
-def norm(word):
-    w = word.lower().replace("’", "'")
-    w = re.sub(r"[^\w.']", "", w).strip(".'")
-    return NUMBERS.get(w, w)
+def int_words(n):
+    if n < 20: return [ONES[n]]
+    if n < 100: return [TENS[n // 10]] + ([ONES[n % 10]] if n % 10 else [])
+    return [ONES[n // 100], "hundred"] + (int_words(n % 100) if n % 100 else [])
 
-def tokens(line):
-    return [t for t in (norm(w) for w in line.split()) if t]
+def spoken(word):
+    """one written word -> the dictionary words the narrator says, e.g. '51.88' -> fifty one point eight eight"""
+    w = word.lower().replace("’", "'").strip(".,;:!?\"()")
+    if re.fullmatch(r"\d+(\.\d+)?", w):
+        a, _, b = w.partition(".")
+        return int_words(int(a)) + (["point"] + [ONES[int(c)] for c in b] if b else [])
+    if w == "mr": return ["mister"]
+    return [t for t in (re.sub(r"[^a-z']", "", p) for p in w.split("-")) if t]
 
-def duration(path):
-    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
-                         capture_output=True, text=True, check=True)
-    return float(out.stdout.strip())
+def line_tokens(line):
+    """[(index of the written word, spoken token)] for one script line"""
+    return [(i, tok) for i, wd in enumerate(line.split()) for tok in spoken(wd)]
+
+# ------------------------------------------------------------------ audio
+def ffmpeg(*args):
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 def join_parts(paths, out):
     if len(paths) == 1:
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", paths[0], "-ar", "44100", "-ac", "1", out], check=True)
+        ffmpeg("-i", paths[0], "-ar", "44100", "-ac", "1", out)
         return
-    cmd = ["ffmpeg", "-y", "-loglevel", "error"]
-    for p in paths:
-        cmd += ["-i", p]
-    cmd += ["-filter_complex", "".join(f"[{i}:a]" for i in range(len(paths))) + f"concat=n={len(paths)}:v=0:a=1[a]",
-            "-map", "[a]", "-ar", "44100", "-ac", "1", out]
-    subprocess.run(cmd, check=True)
+    ins = [a for p in paths for a in ("-i", p)]
+    graph = "".join(f"[{i}:a]" for i in range(len(paths))) + f"concat=n={len(paths)}:v=0:a=1[a]"
+    ffmpeg(*ins, "-filter_complex", graph, "-map", "[a]", "-ar", "44100", "-ac", "1", out)
 
-def transcribe(path):
-    from faster_whisper import WhisperModel
-    model = WhisperModel("small.en", device="cpu", compute_type="int8")
-    segments, _ = model.transcribe(path, word_timestamps=True)
-    return [(w.word.strip(), w.start, w.end) for seg in segments for w in seg.words]
+def silences(path):
+    out = subprocess.run(["ffmpeg", "-hide_banner", "-i", path, "-af", "silencedetect=noise=-40dB:d=0.2", "-f", "null", "-"],
+                         capture_output=True, text=True).stderr
+    starts = [float(x) for x in re.findall(r"silence_start: ([0-9.]+)", out)]
+    ends = [float(x) for x in re.findall(r"silence_end: ([0-9.]+)", out)]
+    return list(zip(starts, ends))
 
-def align(words):
-    """start and duration of every script line, from the words heard"""
+def decoder(**kw):
+    from pocketsphinx import Decoder
+    d = Decoder(samprate=SR, **kw)
+    for w, ph in EXTRA_WORDS.items():
+        d.add_word(w, ph, True)
+    return d
+
+def words_of(d, offset):
+    out = []
+    for s in d.seg():
+        w = re.sub(r"\(\d+\)$", "", s.word)
+        if w in ("<s>", "</s>", "<sil>") or w.startswith("[") or w.startswith("+"): continue
+        out.append((w, offset + s.start_frame / 100, offset + (s.end_frame + 1) / 100))
+    return out
+
+# ------------------------------------------------------------------ 1 and 2: recognise, then find each line
+def recognise(raw, sil, total):
+    d = decoder()
+    edges = [0.0] + [(a + b) / 2 for a, b in sil if b - a >= 0.3] + [total]
+    heard = []
+    for a, b in zip(edges, edges[1:]):
+        d.start_utt(); d.process_raw(raw[int(a * SR) * 2:int(b * SR) * 2], full_utt=True); d.end_utt()
+        heard += words_of(d, a)
+    return heard
+
+def rough_lines(heard, total):
+    """start and end of every line from the recognised words; lines that weren't heard are interpolated"""
     script, owner = [], []
-    for i, (_, line) in enumerate(SCRIPT):
-        for tok in tokens(line):
+    for li, (_, line) in enumerate(SCRIPT):
+        for _, tok in line_tokens(line):
             script.append(tok)
-            owner.append(i)
-    heard, where = [], []
-    for j, (w, _, _) in enumerate(words):
-        n = norm(w)
-        if n:
-            heard.append(n)
-            where.append(j)
-    first, last = {}, {}
-    sm = difflib.SequenceMatcher(None, script, heard, autojunk=False)
+            owner.append(li)
+    t = [None] * len(script)
+    sm = difflib.SequenceMatcher(None, script, [w for w, _, _ in heard], autojunk=False)
     for a, b, n in sm.get_matching_blocks():
-        for k in range(n):
-            i, (_, st, en) = owner[a + k], words[where[b + k]]
-            first.setdefault(i, st)
-            last[i] = en
-    cues = {}
-    known = sorted(first)
-    for i, (key, line) in enumerate(SCRIPT):
-        if i in first:
-            cues[key] = [first[i], last[i] - first[i]]
-            continue
-        # not heard: share the gap between the neighbouring lines in proportion to the number of words
-        prev = max((j for j in known if j < i), default=None)
-        nxt = min((j for j in known if j > i), default=None)
-        a = last[prev] if prev is not None else 0.0
-        b = first[nxt] if nxt is not None else a + 3.0
-        span = list(range((prev if prev is not None else -1) + 1, nxt if nxt is not None else len(SCRIPT)))
-        wc = [len(SCRIPT[j][1].split()) for j in span]
-        before = sum(wc[:span.index(i)])
-        st = a + (b - a) * before / sum(wc)
-        cues[key] = [st, (b - a) * wc[span.index(i)] / sum(wc)]
-        print(f"warning: could not match line '{key}', placed it at {st:.1f} s")
-    return cues
+        if n >= 2:                                   # single-word matches are often coincidences
+            for k in range(n):
+                t[a + k] = heard[b + k][1:]
+    known = [i for i, x in enumerate(t) if x]
+    print(f"recognised {len(known)} of {len(script)} script words")
+    # fill the gaps in proportion to word length
+    pts = [(-1, (0.0, 0.0))] + [(i, t[i]) for i in known] + [(len(script), (total, total))]
+    for (i0, (_, e0)), (i1, (s1, _)) in zip(pts, pts[1:]):
+        gap = list(range(i0 + 1, i1))
+        if not gap: continue
+        w = [len(script[i]) + 1 for i in gap]
+        acc = 0
+        for i, wi in zip(gap, w):
+            st = e0 + (s1 - e0) * acc / sum(w)
+            acc += wi
+            t[i] = (st, e0 + (s1 - e0) * acc / sum(w))
+    bounds = []
+    for li in range(len(SCRIPT)):
+        idx = [i for i, o in enumerate(owner) if o == li]
+        bounds.append([t[idx[0]][0], t[idx[-1]][1]])
+    return bounds
 
-def insert_pauses(cues, src, out):
-    """add PAUSE_GAP seconds of silence after each pause line and shift the later cues"""
+def snap(bounds, sil, total):
+    """lines start just after a pause and end just before one"""
+    ends = [b for _, b in sil]
+    starts = [a for a, _ in sil]
+    out = []
+    for i, (s, e) in enumerate(bounds):
+        cs = min(ends, key=lambda x: abs(x - s), default=s)
+        ce = min(starts, key=lambda x: abs(x - e), default=e)
+        s2 = cs if abs(cs - s) < 0.8 else s
+        e2 = ce if abs(ce - e) < 0.8 and ce > s2 + 0.3 else e
+        out.append([max(0.0, s2), min(total, e2)])
+    for i in range(1, len(out)):                    # keep the lines in order
+        out[i][0] = max(out[i][0], out[i - 1][0] + 0.05)
+    return out
+
+# ------------------------------------------------------------------ 3: force-align every line
+def align_line(raw, line, s, e, total):
+    toks = line_tokens(line)
+    a, b = max(0.0, s - 0.08), min(total, e + 0.25)
+    d = decoder(bestpath=False)
+    d.set_align_text(" ".join(tok for _, tok in toks))
+    d.start_utt(); d.process_raw(raw[int(a * SR) * 2:int(b * SR) * 2], full_utt=True); d.end_utt()
+    got = words_of(d, a)
+    if [w for w, _, _ in got] != [tok for _, tok in toks]:
+        return None
+    n = len(line.split())
+    starts = [None] * n
+    for (wi, _), (_, st, _) in zip(toks, got):
+        if starts[wi] is None: starts[wi] = st
+    return starts + [got[-1][2]]
+
+def time_words(raw, bounds, total):
+    words = {}
+    for (key, line), (s, e) in zip(SCRIPT, bounds):
+        ws = align_line(raw, line, s, e, total)
+        if ws is None:
+            n = len(line.split())
+            ws = [s + (e - s) * i / n for i in range(n)] + [e]
+            print(f"warning: could not force-align '{key}', spread its words evenly")
+        words[key] = ws
+    return words
+
+# ------------------------------------------------------------------ 4: the pause gap
+def insert_pauses(words, src, out):
     keys = [k for k, _ in SCRIPT]
-    cuts = []
-    for pk in PAUSE_KEYS:
-        st, du = cues[pk]
-        nxt = keys[keys.index(pk) + 1]
-        cuts.append(min(st + du + 0.3, cues[nxt][0]))
-    cuts.sort()
-    for k in cues:
-        cues[k][0] += PAUSE_GAP * sum(1 for c in cuts if cues[k][0] >= c)
+    cuts = sorted(min(words[pk][-1] + 0.3, words[keys[keys.index(pk) + 1]][0]) for pk in PAUSE_KEYS)
+    for k in words:
+        words[k] = [x + PAUSE_GAP * sum(1 for c in cuts if words[k][0] >= c) for x in words[k]]
     parts, edges = [], [0.0] + cuts + [None]
     for i in range(len(edges) - 1):
         trim = f"atrim=start={edges[i]}" + (f":end={edges[i + 1]}" if edges[i + 1] is not None else "")
         pad = f",apad=pad_dur={PAUSE_GAP}" if edges[i + 1] is not None else ""
         parts.append(f"[0:a]{trim},asetpts=PTS-STARTPTS{pad}[p{i}]")
     graph = ";".join(parts) + ";" + "".join(f"[p{i}]" for i in range(len(parts))) + f"concat=n={len(parts)}:v=0:a=1[a]"
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", src, "-filter_complex", graph, "-map", "[a]",
-                    "-c:a", "libmp3lame", "-b:a", "192k", out], check=True)
-    return cues
+    ffmpeg("-i", src, "-filter_complex", graph, "-map", "[a]", "-c:a", "libmp3lame", "-b:a", "192k", out)
+    return words
 
-def main(paths, words_json=None):
+def main(paths):
     with tempfile.TemporaryDirectory() as tmp:
-        joined = os.path.join(tmp, "joined.wav")
+        joined, rawf = os.path.join(tmp, "joined.wav"), os.path.join(tmp, "joined.raw")
         join_parts(paths, joined)
-        words = [tuple(w) for w in json.load(open(words_json))] if words_json else transcribe(joined)
-        cues = align(words)
+        ffmpeg("-i", joined, "-ar", str(SR), "-ac", "1", "-f", "s16le", rawf)
+        raw = open(rawf, "rb").read()
+        total = len(raw) / (2 * SR)
+        sil = silences(joined)
+        bounds = snap(rough_lines(recognise(raw, sil, total), total), sil, total)
+        words = time_words(raw, bounds, total)
         audio = os.path.join(HERE, "ramps_audio.mp3")
-        cues = insert_pauses(cues, joined, audio)
+        words = insert_pauses(words, joined, audio)
     over = os.path.join(HERE, "ramps_cues_override.json")
     if os.path.exists(over):
         for k, v in json.load(open(over)).items():
-            if isinstance(v, list): cues[k] = list(v)
-            else: cues[k][0] += v
-    cues["_end"] = [duration(audio) + 1.0, 0]
+            words[k] = [x + v for x in words[k]]
+    cues = {k: [words[k][0], words[k][-1] - words[k][0]] for k, _ in SCRIPT}
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", audio],
+                         capture_output=True, text=True, check=True)
+    cues["_words"] = {k: [round(x, 3) for x in v] for k, v in words.items()}
+    cues["_end"] = [float(out.stdout) + 1.0, 0]
     json.dump(cues, open(os.path.join(HERE, "ramps_cues.json"), "w"), indent=1)
     for k, _ in SCRIPT:
         print(f"{cues[k][0]:7.2f} {cues[k][1]:5.2f} {k}")
     print(f"wrote ramps_cues.json and ramps_audio.mp3 ({cues['_end'][0]:.1f} s)")
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-    wj = None
-    if "--words" in args:          # testing: use a saved word list instead of transcribing
-        i = args.index("--words"); wj = args[i + 1]; del args[i:i + 2]
-    if not args:
+    if len(sys.argv) < 2:
         sys.exit(__doc__)
-    main(args, wj)
+    main(sys.argv[1:])

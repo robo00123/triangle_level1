@@ -4,23 +4,46 @@ from multiprocessing import Pool
 from PIL import ImageFont
 from make_video import (arrow, arrowhead, text, it, col, clamp, fade, ease, card, DEFS,
                         NAVY, GREEN, RED, BLUE, GOLD, W, H, FPS)
-from ramps_script import estimated_cues
+from ramps_script import SCRIPT, estimated_cues
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = HERE + "/frames_ramps"
 os.makedirs(OUT, exist_ok=True)
 IMG64 = base64.b64encode(open(HERE + "/ramps_title.png", "rb").read()).decode()
 
+WORDS = {}
 if os.path.exists(HERE + "/ramps_cues.json"):
-    C = {k: tuple(v) for k, v in json.load(open(HERE + "/ramps_cues.json")).items()}
+    C = json.load(open(HERE + "/ramps_cues.json"))
     DUR = C.pop("_end")[0]
+    WORDS = C.pop("_words", {})
+    C = {k: tuple(v) for k, v in C.items()}
 else:
     C, DUR = estimated_cues()
     DUR += 1.0
 
+_norm = lambda w: re.sub(r"[^\w.']", "", w.lower()).strip(".'")
+LINE_WORDS = {k: [_norm(w) for w in line.split()] for k, line in SCRIPT}
+
+def word_index(k, phrase):
+    p, ws = [_norm(w) for w in phrase.split()], LINE_WORDS[k]
+    for i in range(len(ws) - len(p) + 1):
+        if ws[i:i + len(p)] == p:
+            return i
+    raise KeyError(f"'{phrase}' is not in script line '{k}'")
+
 def S(k, f=0.0):
+    """time of a point in script line k: f is a fraction of the way through its words,
+    or a word or phrase from the line, giving the moment the narrator starts saying it"""
     s, d = C[k]
-    return s + f * d
+    n = len(LINE_WORDS[k])
+    if isinstance(f, str):
+        f = word_index(k, f) / n
+    ws = WORDS.get(k)
+    if not ws:
+        return s + f * d
+    pos = clamp(f) * n
+    i = min(int(pos), n - 1)
+    return ws[i] + (pos - i) * (ws[i + 1] - ws[i])
 
 def window(t, a, b, f=0.5):
     return fade(t, a, f) * (1 - fade(t, b, f))
@@ -139,10 +162,10 @@ def cta_card(t):
         s.append(f'<line x1="0" y1="{y}" x2="{W}" y2="{y}" stroke="white" stroke-opacity="0.05"/>')
     s.append(f'<text x="{W/2}" y="330" font-family="Montserrat" font-weight="800" font-size="96" fill="white" text-anchor="middle">Full lesson and</text>')
     s.append(f'<text x="{W/2}" y="440" font-family="Montserrat" font-weight="800" font-size="96" fill="#ffc94d" text-anchor="middle">worksheet</text>')
-    uo = fade(t, S("cta", 0.3))
+    uo = fade(t, S("cta", "You'll find"))
     s.append(f'<text x="{W/2}" y="590" font-family="Montserrat" font-weight="600" font-size="44" fill="white" fill-opacity="0.85" text-anchor="middle" opacity="{uo}">Visit</text>')
     s.append(f'<text x="{W/2}" y="680" font-family="Montserrat" font-weight="800" font-size="72" fill="white" text-anchor="middle" opacity="{uo}">mr-mathematics.com</text>')
-    lo = fade(t, S("cta", 0.6))
+    lo = fade(t, S("cta", "the link"))
     bob = 12 * math.sin(2 * math.pi * 1.2 * t)
     s.append(f'<g opacity="{lo}"><rect x="{W/2 - 460}" y="770" width="920" height="96" rx="48" fill="#ffc94d"/>'
              f'<text x="{W/2}" y="832" font-family="Montserrat" font-weight="700" font-size="42" fill="#2b0f52" text-anchor="middle">Worksheet link in the description below</text>'
@@ -375,13 +398,13 @@ def scene_work(t):
     op = window(t, a, b)
     if op <= 0: return ""
     s = [f'<g opacity="{op}">', header("Work done: a quick reminder"), divider()]
-    s.append(notes(t, [(S("wd1", 0.3), 220, "When a force moves an object, it does work.", 34, NAVY, "normal"),
-                       (S("wd2", 0.05), 470, "Work done is measured in joules (J).", 34, NAVY, "normal"),
-                       (S("wd2", 0.62), 545, col("Twice the distance  →  twice the work", GOLD, True), 36, NAVY, "normal")]))
-    s.append(gold_box(t, S("wd1", 0.6), 76, 270, 820, 120, ["Work done = force × distance"], 46))
+    s.append(notes(t, [(S("wd1", "When"), 220, "When a force moves an object, it does work.", 34, NAVY, "normal"),
+                       (S("wd2", "measured"), 470, "Work done is measured in joules (J).", 34, NAVY, "normal"),
+                       (S("wd2", "Twice"), 545, col("Twice the distance  →  twice the work", GOLD, True), 36, NAVY, "normal")]))
+    s.append(gold_box(t, S("wd1", "The work done"), 76, 270, 820, 120, ["Work done = force × distance"], 46))
     G, BW, BH = 520, 140, 84
     x0, x1 = 1020, 1560
-    k = clamp((t - S("wd1", 0.55)) / (S("wd2", 0.7) - S("wd1", 0.55)))
+    k = clamp((t - S("wd1", "moves")) / (S("wd2", "twice the work") - S("wd1", "moves")))
     x = x0 + (x1 - x0) * k
     s.append(f'<line x1="990" y1="{G}" x2="1840" y2="{G}" stroke="{INK}" stroke-width="4"/>')
     s.append(f'<rect x="{x}" y="{G - BH}" width="{BW}" height="{BH}" rx="16" fill="white" stroke="{PUR}" stroke-width="5"/>')
@@ -420,30 +443,30 @@ def scene_gravity(t):
     s = [f'<g opacity="{op}">', header("Work done against gravity"), divider()]
     mg = f'{it("m")}{it("g")}'
     s.append(notes(t, [
-        (S("g1", 0.4), 200, f"Pull the box a distance {D_} up the slope.", 34, NAVY, "normal"),
-        (S("g2", 0.45), 255, f"It rises a vertical height {H_}.", 34, NAVY, "normal"),
-        (S("g3", 0.3), 330, f"Weight:  {col(mg, PUR)}  straight down", 34, NAVY, "normal"),
-        (S("g4", 0.45), 385, f"Component down the slope:  {col(mg + ' ' + SIN, PUR, True)}", 34, NAVY, "normal"),
+        (S("g1", "pulled"), 200, f"Pull the box a distance {D_} up the slope.", 34, NAVY, "normal"),
+        (S("g2", "vertical"), 255, f"It rises a vertical height {H_}.", 34, NAVY, "normal"),
+        (S("g3", "weight"), 330, f"Weight:  {col(mg, PUR)}  straight down", 34, NAVY, "normal"),
+        (S("g4", "m g sine"), 385, f"Component down the slope:  {col(mg + ' ' + SIN, PUR, True)}", 34, NAVY, "normal"),
     ]))
     s.append(working(t, [
-        (S("g5", 0.3), f"Work done  =  {col(mg + ' ' + SIN, PUR)} × {D_}", 40),
-        (S("g6", 0.35), f"{SIN} = {H_}/{D_}    so    {D_} {SIN} = {H_}", 40),
+        (S("g5", "m g sine"), f"Work done  =  {col(mg + ' ' + SIN, PUR)} × {D_}", 40),
+        (S("g6", "Sine alpha"), f"{SIN} = {H_}/{D_}    so    {D_} {SIN} = {H_}", 40),
     ], 485, 75))
-    s.append(gold_box(t, S("g7", 0.1), 76, 610, 830, 120, [f"Work done against gravity  =  {it('m')}{it('g')}{H_}"], 44))
-    s.append(notes(t, [(S("g7", 0.55), 800, col("weight × vertical height", GOLD, True), 36, NAVY, "normal")]))
+    s.append(gold_box(t, S("g7", "m g h"), 76, 610, 830, 120, [f"Work done against gravity  =  {it('m')}{it('g')}{H_}"], 44))
+    s.append(notes(t, [(S("g7", "weight"), 800, col("weight × vertical height", GOLD, True), 36, NAVY, "normal")]))
     # motion
-    keys = [(S("g1", 0.35), G_S0, 1), (S("g2", 0.55), G_S1, 1)]
+    keys = [(S("g1", "pulled"), G_S0, 1), (S("g2", "The vertical"), G_S1, 1)]
     sb, _ = track(t, keys)
     s.append(RG.svg())
-    s.append(RG.h_triangle(G_S0, G_S1, window(t, S("g6", 0.05), S("g7", 0.6), 0.5)))
-    s.append(RG.h_marker(G_S0, sb, fade(t, S("g2", 0.1), 0.4)))
-    s.append(RG.d_arrow(G_S0, sb, fade(t, S("g1", 0.3), 0.4) * (1 - fade(t, S("g3", 0.1), 0.5))))
+    s.append(RG.h_triangle(G_S0, G_S1, window(t, S("g6", "triangle"), S("g7", "vertical"), 0.5)))
+    s.append(RG.h_marker(G_S0, sb, fade(t, S("g2", "rises"), 0.4)))
+    s.append(RG.d_arrow(G_S0, sb, fade(t, S("g1", "distance"), 0.4) * (1 - fade(t, S("g3", "The box is moving"), 0.5))))
     if moving(t, keys): s.append(RG.speed_lines(sb))
     s.append(RG.box(sb))
-    calm = 1 - 0.85 * window(t, S("g6", 0.0), S("g7", 0.7), 0.5)
-    s.append(RG.force(sb, "W", fade(t, S("g3", 0.25)) * calm))
-    s.append(RG.components(sb, (fade(t, S("g4", 0.05)) * 0.55 + fade(t, S("g4", 0.15)) * 0.45 * (1 - fade(t, S("g4", 0.4)))) * calm,
-                           fade(t, S("g4", 0.4))))
+    calm = 1 - 0.85 * window(t, S("g6", "triangle"), S("g7", "height gained"), 0.5)
+    s.append(RG.force(sb, "W", fade(t, S("g3", "weight")) * calm))
+    s.append(RG.components(sb, (fade(t, S("g4", "One component")) * 0.55 + fade(t, S("g4", "m g cos")) * 0.45 * (1 - fade(t, S("g4", "The other")))) * calm,
+                           fade(t, S("g4", "The other"))))
     s.append('</g>')
     return "".join(s)
 
@@ -458,18 +481,18 @@ def scene_height(t):
     s = [f'<g opacity="{op}">', header("Only the vertical height matters"),
          f'<line x1="930" y1="140" x2="930" y2="830" stroke="{NAVY}" stroke-opacity="0.15" stroke-width="3"/>']
     mg = f'{it("m")}{it("g")}'
-    s.append(notes(t, [(S("g8", 0.25), 175, "Lift straight up", 40, NAVY, "bold")]))
-    s.append(notes(t, [(S("g8", 0.6), 175, "Pull up the slope", 40, NAVY, "bold")], x=990))
-    s.append(notes(t, [(S("g9", 0.1), 232, f"Big force {col(mg, GREEN)}, short distance {H_}", 32, NAVY, "normal")]))
-    s.append(notes(t, [(S("g9", 0.55), 232, f"Small force {col(mg + ' ' + SIN, GREEN)}, long distance {D_}", 32, NAVY, "normal")], x=990))
+    s.append(notes(t, [(S("g8", "On the left"), 175, "Lift straight up", 40, NAVY, "bold")]))
+    s.append(notes(t, [(S("g8", "On the right"), 175, "Pull up the slope", 40, NAVY, "bold")], x=990))
+    s.append(notes(t, [(S("g9", "Lifting"), 232, f"Big force {col(mg, GREEN)}, short distance {H_}", 32, NAVY, "normal")]))
+    s.append(notes(t, [(S("g9", "Pulling"), 232, f"Small force {col(mg + ' ' + SIN, GREEN)}, long distance {D_}", 32, NAVY, "normal")], x=990))
     y0 = RH.P(H_S0, 0)[1]
     y1 = RH.P(H_S1, 0)[1]
-    t0, t1 = S("g9", 0.05), S("g10", 0.45)
+    t0, t1 = S("g9", "Lifting"), S("g10", "same level")
     k = clamp((t - t0) / (t1 - t0))
-    lo = fade(t, S("g8", 0.2))
+    lo = fade(t, S("g8", "On the left"))
     # start and finish levels, across both panels
     s.append(dashed((100, y0), (1840, y0), "#9aa3b5", lo, 3))
-    s.append(dashed((100, y1), (1840, y1), "#9aa3b5", fade(t, S("g8", 0.7)), 3))
+    s.append(dashed((100, y1), (1840, y1), "#9aa3b5", fade(t, S("g8", "same height")), 3))
     # left: lift straight up
     bx, bw, bh = 560, 110, 66
     by = y0 + (y1 - y0) * k
@@ -478,26 +501,26 @@ def scene_height(t):
         s.append(dashed((bx - bw / 2 - 40, y0), (bx - bw / 2 - 40, by), ORANGE, 1, 5))
         s.append(label(bx - bw / 2 - 54, (y0 + by) / 2 + 14, H_, 38, ORANGE, "end"))
     s.append(f'<rect x="{bx - bw / 2}" y="{by - bh}" width="{bw}" height="{bh}" rx="16" fill="white" stroke="{PUR}" stroke-width="5" opacity="{lo}"/>')
-    fo = fade(t, S("g9", 0.1))
+    fo = fade(t, S("g9", "Lifting"))
     s.append(arrow(bx, by - bh, bx, by - bh - 170, GREEN, w=6, op=fo))
     s.append(text(bx + 16, by - bh - 120, col(mg, GREEN), 36, GREEN, op=fo))
     # right: pull up the slope
     sb = H_S0 + (H_S1 - H_S0) * k
-    s.append(RH.svg(op=fade(t, S("g8", 0.55))))
+    s.append(RH.svg(op=fade(t, S("g8", "On the right"))))
     if k > 0.01:
         s.append(RH.h_marker(H_S0, sb))
-    s.append(RH.box(sb, op=fade(t, S("g8", 0.55))))
-    s.append(RH.force(sb, "T", fade(t, S("g9", 0.55)), lab=col(mg + " " + SIN, GREEN), length=170 * RH.s, size=32, mid=True))
+    s.append(RH.box(sb, op=fade(t, S("g8", "On the right"))))
+    s.append(RH.force(sb, "T", fade(t, S("g9", "Pulling")), lab=col(mg + " " + SIN, GREEN), length=170 * RH.s, size=32, mid=True))
     if 0 < k < 1: s.append(RH.speed_lines(sb))
     # work bars fill as the height is gained
     yb = 900
-    s.append(bar(240, yb, 560, [(560 * k, PUR)], fade(t, S("g9", 0.0)), lab="Work done"))
-    s.append(bar(1130, yb, 560, [(560 * k, PUR)], fade(t, S("g9", 0.0)), lab="Work done"))
-    vo = fade(t, S("g10", 0.5))
+    s.append(bar(240, yb, 560, [(560 * k, PUR)], fade(t, S("g9", "Lifting")), lab="Work done"))
+    s.append(bar(1130, yb, 560, [(560 * k, PUR)], fade(t, S("g9", "Lifting")), lab="Work done"))
+    vo = fade(t, S("g10", "same level"))
     s.append(text(240 + 572, yb + 25, f'{it("m")}{it("g")}{H_}', 32, PUR, op=vo, weight="bold"))
     s.append(text(1130 + 572, yb + 25, f'{it("m")}{it("g")}{H_}', 32, PUR, op=vo, weight="bold"))
-    s.append(notes(t, [(S("g10", 0.6), 990, f"{col(mg, GREEN)} × {H_}  =  {col(mg + ' ' + SIN, GREEN)} × {D_}  =  {it('m')}{it('g')}{H_}", 36, NAVY, "bold")], x=500))
-    s.append(pop(t, S("g10", 0.45), 930, 850, "same work!"))
+    s.append(notes(t, [(S("g10", "Only"), 990, f"{col(mg, GREEN)} × {H_}  =  {col(mg + ' ' + SIN, GREEN)} × {D_}  =  {it('m')}{it('g')}{H_}", 36, NAVY, "bold")], x=500))
+    s.append(pop(t, S("g10", "same level"), 930, 850, "same work!"))
     s.append('</g>')
     return "".join(s)
 
@@ -511,40 +534,40 @@ def scene_friction(t):
     if op <= 0: return ""
     s = [f'<g opacity="{op}">', header("Work done against friction"), divider()]
     s.append(notes(t, [
-        (S("f1", 0.4), 200, "On a rough slope, friction opposes the motion.", 34, NAVY, "normal"),
-        (S("f2", 0.55), 255, "Friction is constant, so the work done grows", 34, NAVY, "normal"),
-        (S("f2", 0.7), 300, "steadily with the distance moved.", 34, NAVY, "normal"),
+        (S("f1", "friction"), 200, "On a rough slope, friction opposes the motion.", 34, NAVY, "normal"),
+        (S("f2", "Friction stays"), 255, "Friction is constant, so the work done grows", 34, NAVY, "normal"),
+        (S("f2", "grows steadily"), 300, "steadily with the distance moved.", 34, NAVY, "normal"),
     ]))
     mg = f'{it("m")}{it("g")}'
     s.append(working(t, [
-        (S("f3", 0.45), f"Resolve perpendicular:   {R_} = {col(mg, PUR)} {COS}", 38),
-        (S("f4", 0.25), f"Friction is limiting:   {FR} = {MU}{R_}", 38),
-        (S("f4", 0.65), f"{FR} = {MU}{col(mg, PUR)} {COS}", 38),
+        (S("f3", "R balances"), f"Resolve perpendicular:   {R_} = {col(mg, PUR)} {COS}", 38),
+        (S("f4", "Friction equals"), f"Friction is limiting:   {FR} = {MU}{R_}", 38),
+        (S("f4", "which is mu"), f"{FR} = {MU}{col(mg, PUR)} {COS}", 38),
     ], 395, 68))
-    s.append(gold_box(t, S("f5", 0.3), 76, 590, 830, 170,
+    s.append(gold_box(t, S("f5", "The work done"), 76, 590, 830, 170,
                       ["Work done against friction", f"=  {MU}{R_} × {D_}  =  {MU}{it('m')}{it('g')} {COS} × {D_}"], 40))
-    s.append(notes(t, [(S("f6", 0.25), 830, f"Gravity:   use the vertical height {H_}", 34, NAVY, "normal"),
-                       (S("f6", 0.55), 885, f"Friction:   use the full distance {col(D_, RED)}", 34, NAVY, "normal")]))
-    keys = [(S("f2", 0.05), F_S0, 1), (S("f2", 0.95), F_S1, 1)]
+    s.append(notes(t, [(S("f6", "For gravity"), 830, f"Gravity:   use the vertical height {H_}", 34, NAVY, "normal"),
+                       (S("f6", "For friction"), 885, f"Friction:   use the full distance {col(D_, RED)}", 34, NAVY, "normal")]))
+    keys = [(S("f2", "As the box"), F_S0, 1), (S("f2", "every metre"), F_S1, 1)]
     sb, _ = track(t, keys)
-    s.append(RF.svg(rough=fade(t, S("f1", 0.3), 0.6)))
-    s.append(RF.d_arrow(F_S0, sb, fade(t, S("f2", 0.0), 0.3), ticks=4 if sb > F_S1 - 1 else 0))
+    s.append(RF.svg(rough=fade(t, S("f1", "rough"), 0.6)))
+    s.append(RF.d_arrow(F_S0, sb, fade(t, S("f2", "As the box"), 0.3), ticks=4 if sb > F_S1 - 1 else 0))
     if moving(t, keys): s.append(RF.speed_lines(sb))
     s.append(RF.box(sb))
-    s.append(RF.force(sb, "Fr", fade(t, S("f2", 0.05))))
-    s.append(RF.force(sb, "R", fade(t, S("f3", 0.3))))
-    s.append(RF.force(sb, "W", fade(t, S("f3", 0.35))))
-    s.append(RF.components(sb, op_cos=fade(t, S("f3", 0.55)), op_sin=0))
+    s.append(RF.force(sb, "Fr", fade(t, S("f2", "As the box"))))
+    s.append(RF.force(sb, "R", fade(t, S("f3", "normal reaction"))))
+    s.append(RF.force(sb, "W", fade(t, S("f3", "Resolve"))))
+    s.append(RF.components(sb, op_cos=fade(t, S("f3", "m g cos")), op_sin=0))
     # the friction work bar grows in equal steps with equal distances
     k = (sb - F_S0) / (F_S1 - F_S0)
     yb = 680
-    bo = fade(t, S("f2", 0.05))
+    bo = fade(t, S("f2", "As the box"))
     s.append(text(1000, yb - 16, "Work done against friction", 30, RED, op=bo, weight="bold"))
     s.append(bar(1000, yb, 700, [(700 * k, RED)], bo, h=36))
     for i in range(1, 4):
         if k >= i / 4:
             s.append(f'<line x1="{1000 + 700 * i / 4}" y1="{yb - 6}" x2="{1000 + 700 * i / 4}" y2="{yb + 42}" stroke="{GOLD}" stroke-width="5" opacity="{bo}"/>')
-    s.append(pop(t, S("f6", 0.6), 1400, 820, "the whole distance!", size=40))
+    s.append(pop(t, S("f6", "the whole way"), 1400, 820, "the whole distance!", size=40))
     s.append('</g>')
     return "".join(s)
 
@@ -559,33 +582,33 @@ def scene_combined(t):
     if op <= 0: return ""
     s = [f'<g opacity="{op}">', header("Pulling at a constant speed"), divider()]
     mg = f'{it("m")}{it("g")}'
-    s.append(notes(t, [(S("c1", 0.4), 200, "Constant speed: no acceleration,", 34, NAVY, "normal"),
-                       (S("c2", 0.3), 250, "so the forces along the slope balance.", 34, NAVY, "normal")]))
+    s.append(notes(t, [(S("c2", "Constant speed"), 200, "Constant speed: no acceleration,", 34, NAVY, "normal"),
+                       (S("c2", "the forces along"), 250, "so the forces along the slope balance.", 34, NAVY, "normal")]))
     s.append(working(t, [
-        (S("c2", 0.6), f"{T_} = {FR} + {col(mg, PUR)} {SIN}", 42),
-        (S("c3", 0.2), f"{T_} × {D_} = {FR} × {D_} + {col(mg, PUR)} {SIN} × {D_}", 38),
-        (S("c3", 0.55), f"         = {col(MU + mg + 'd ' + COS, RED)} + {col(mg + 'd ' + SIN, PUR)}", 38),
-        (S("c3", 0.85), f"         = {mg}{D_}({SIN} + {MU} {COS})", 38),
+        (S("c2", "T equals"), f"{T_} = {FR} + {col(mg, PUR)} {SIN}", 42),
+        (S("c3", "T multiplied"), f"{T_} × {D_} = {FR} × {D_} + {col(mg, PUR)} {SIN} × {D_}", 38),
+        (S("c3", "mu m g d"), f"         = {col(MU + mg + 'd ' + COS, RED)} + {col(mg + 'd ' + SIN, PUR)}", 38),
+        (S("c3", 0.97), f"         = {mg}{D_}({SIN} + {MU} {COS})", 38),
     ], 340, 78))
-    s.append(notes(t, [(S("c4", 0.1), 640, f"{col('against friction', RED, True)}  +  {col('against gravity', PUR, True)}", 34, NAVY, "normal")]))
-    o5 = fade(t, S("c5", 0.25), 0.5)
+    s.append(notes(t, [(S("c4", "against friction"), 640, f"{col('against friction', RED, True)}  +  {col('against gravity', PUR, True)}", 34, NAVY, "normal")]))
+    o5 = fade(t, S("c5", "T times d"), 0.5)
     if o5 > 0:
         s.append(f'<rect x="76" y="720" width="830" height="150" rx="16" fill="#fff6dd" stroke="{GOLD}" stroke-width="5" opacity="{o5}"/>')
         s.append(label(491, 815, f"{T_} × {D_}  =  {col(MU + it('R'), RED)} × {D_}  +  {col(it('m'), PUR)}{it('g')}{H_}", 52, NAVY, "middle", o5, "bold"))
-    keys = [(S("c1", 0.3), C_S0, 1), (S("c1", 1.0), C_S1, 1), (S("c4", 0.15), C_S1, 1), (S("c4", 0.9), C_S2, 1)]
+    keys = [(S("c1", "pulls"), C_S0, 1), (S("c1", 1.0), C_S1, 1), (S("c4", "Watch the bars"), C_S1, 1), (S("c4", "added together"), C_S2, 1)]
     sb, _ = track(t, keys)
     s.append(RC.svg(rough=1))
     k = clamp((sb - C_S1) / (C_S2 - C_S1))
-    s.append(RC.d_arrow(C_S1, sb, fade(t, S("c4", 0.15), 0.3)))
+    s.append(RC.d_arrow(C_S1, sb, fade(t, S("c4", "Watch the bars"), 0.3)))
     if moving(t, keys): s.append(RC.speed_lines(sb))
     s.append(RC.box(sb))
-    for kind, st in (("T", S("c1", 0.2)), ("Fr", S("c1", 0.4)), ("R", S("c1", 0.5)), ("W", S("c1", 0.6))):
+    for kind, st in (("T", S("c1", "A force T")), ("Fr", S("c1", 0.4)), ("R", S("c1", 0.5)), ("W", S("c1", 0.6))):
         s.append(RC.force(sb, kind, fade(t, st)))
-    bo = fade(t, S("c4", 0.1))
+    bo = fade(t, S("c4", "against friction"))
     s.append(bar(1230, 650, 660, [(WG_FULL * k, PUR)], bo, lab="against gravity", labc=PUR))
     s.append(bar(1230, 695, 660, [(WF_FULL * k, RED)], bo, lab="against friction", labc=RED))
     s.append(bar(1230, 740, 660, [(WG_FULL * k, PUR), (WF_FULL * k, RED)], bo, outline=GREEN, lab=f"by {T_}", labc=GREEN))
-    s.append(pop(t, S("c4", 0.92), 1560, 830, "the two added together!", size=40))
+    s.append(pop(t, S("c4", "added together"), 1560, 830, "the two added together!", size=40))
     s.append('</g>')
     return "".join(s)
 
@@ -595,10 +618,10 @@ def scene_tips(t):
     op = window(t, a, b)
     if op <= 0: return ""
     s = [f'<g opacity="{op}">', header("Solving problems on a ramp")]
-    rows = [(0.18, "Draw a force diagram", f"Show {T_}, friction, {R_} and the weight {MG}."),
-            (0.33, f"Find sin {A_} and cos {A_}", "Use a right-angled triangle and Pythagoras."),
-            (0.55, f"Resolve perpendicular to find {R_}", f"{R_} = {col(it('m') + it('g'), PUR)} {COS}, then {FR} = {MU}{R_}"),
-            (0.75, "Gravity: height.   Friction: distance.", f"{it('m')}{it('g')}{H_}   and   {MU}{R_} × {D_}")]
+    rows = [("Draw", "Draw a force diagram", f"Show {T_}, friction, {R_} and the weight {MG}."),
+            ("Find sine", f"Find sin {A_} and cos {A_}", "Use a right-angled triangle and Pythagoras."),
+            ("Resolve", f"Resolve perpendicular to find {R_}", f"{R_} = {col(it('m') + it('g'), PUR)} {COS}, then {FR} = {MU}{R_}"),
+            ("Then use", "Gravity: height.   Friction: distance.", f"{it('m')}{it('g')}{H_}   and   {MU}{R_} × {D_}")]
     for i, (f, title, line) in enumerate(rows):
         o = ease(fade(t, S("tips", f), 0.5))
         if o <= 0: continue
@@ -644,56 +667,56 @@ def scene_q1(t):
     s = [f'<g opacity="{op}">', header("Worked example: friction and gravity on a slope")]
     s.append(qblock(t, [
         (S("w1"), f"A rough plane is inclined at an angle {A_} to the"),
-        (S("w1", 0.55), f"horizontal, where tan {A_} = 8/15. A box of mass 6 kg"),
-        (S("w2", 0.2), "is pulled at a constant speed up a line of greatest"),
-        (S("w2", 0.5), "slope of the plane. The coefficient of friction"),
-        (S("w2", 0.75), "between the box and the plane is 0.4.")],
+        (S("w1", "horizontal"), f"horizontal, where tan {A_} = 8/15. A box of mass 6 kg"),
+        (S("w2", "is pulled"), "is pulled at a constant speed up a line of greatest"),
+        (S("w2", "The coefficient"), "slope of the plane. The coefficient of friction"),
+        (S("w2", "between"), "between the box and the plane is 0.4.")],
         ["a) Find the magnitude of the frictional force.",
          "The box moves 20 m up the plane. Find the work done",
          "b) against friction        c) against gravity."], S("w3")))
     mg = col(f'{it("m")}{it("g")}', PUR)
     s.append(working(t, [
-        (S("wtri", 0.75), f"sin {A_} = 8/17,    cos {A_} = 15/17", 36),
-        (S("wR", 0.35), f"{R_} = 6{it('g')} {COS} = 6 × 9.8 × 15/17 = 51.88… N", 36),
-        (S("wF", 0.35), f"a)  {FR} = {MU}{R_} = 0.4 × 51.88… = {col('20.8 N', BLUE, True)}", 36),
-        (S("wwf", 0.45), f"b)  {FR} × {D_} = 20.75… × 20 = {col('415 J', BLUE, True)}", 36),
-        (S("wh", 0.55), f"{H_} = 20 {SIN} = 20 × 8/17 = 9.411… m", 36),
-        (S("wwg", 0.5), f"c)  {mg}{H_} = 6 × 9.8 × 9.411… = {col('553 J', BLUE, True)}", 36),
-        (S("wtot", 0.45), f"Work done by {T_} = 415 + 553 = 968 J", 34),
+        (S("wtri", "So sine alpha"), f"sin {A_} = 8/17,    cos {A_} = 15/17", 36),
+        (S("wR", "R equals"), f"{R_} = 6{it('g')} {COS} = 6 × 9.8 × 15/17 = 51.88… N", 36),
+        (S("wF", "Friction is 0.4"), f"a)  {FR} = {MU}{R_} = 0.4 × 51.88… = {col('20.8 N', BLUE, True)}", 36),
+        (S("wwf", "so the work"), f"b)  {FR} × {D_} = 20.75… × 20 = {col('415 J', BLUE, True)}", 36),
+        (S("wh", "The box rises"), f"{H_} = 20 {SIN} = 20 × 8/17 = 9.411… m", 36),
+        (S("wwg", "m g h"), f"c)  {mg}{H_} = 6 × 9.8 × 9.411… = {col('553 J', BLUE, True)}", 36),
+        (S("wtot", "415 plus"), f"Work done by {T_} = 415 + 553 = 968 J", 34),
     ], 590, 62))
     # motion: model the problem while it is read, then again for the work done
     rs = S("w3", 0.85)
-    keys = [(S("w2", 0.1), E1_S0, 1), (S("w3", 0.3), E1_S1, 1), (rs, E1_S1, 1), (rs + 0.3, E1_S1, 0), (rs + 0.31, E1_S0, 0),
-            (rs + 0.6, E1_S0, 1), (S("wmove", 0.15), E1_S0, 1), (S("wwf", 0.4), E1_S1, 1)]
+    keys = [(S("w2", "is pulled"), E1_S0, 1), (S("w3", "Then the box"), E1_S1, 1), (rs, E1_S1, 1), (rs + 0.3, E1_S1, 0), (rs + 0.31, E1_S0, 0),
+            (rs + 0.6, E1_S0, 1), (S("wmove", "watch"), E1_S0, 1), (S("wwf", "so the work"), E1_S1, 1)]
     sb, bo = track(t, keys)
     s.append(R1.svg(rough=1))
-    s.append(tri_icon(1010, 232, 15, 8, 17, 12, window(t, S("wtri", 0.15), S("wmove"), 0.5), 26))
+    s.append(tri_icon(1010, 232, 15, 8, 17, 12, window(t, S("wtri", "draw"), S("wmove"), 0.5), 26))
     second = t >= rs + 0.31
     if second:
-        s.append(R1.h_marker(E1_S0, E1_S1, fade(t, S("wh", 0.2)), lab=H_ + col(" = 9.41 m", ORANGE) if t >= S("wh", 0.7) else H_,
+        s.append(R1.h_marker(E1_S0, E1_S1, fade(t, S("wh", "height gained")), lab=H_ + col(" = 9.41 m", ORANGE) if t >= S("wh", "9.41") else H_,
                              size=34, inside=True))
-        s.append(R1.d_arrow(E1_S0, sb, window(t, S("wmove", 0.1), S("wh", 0.1), 0.3) * bo, lab="20 m"))
+        s.append(R1.d_arrow(E1_S0, sb, window(t, S("wmove", "watch"), S("wh", "For gravity"), 0.3) * bo, lab="20 m"))
     else:
         s.append(R1.d_arrow(E1_S0, sb, bo * (1 - fade(t, rs, 0.3))))
     if moving(t, keys): s.append(R1.speed_lines(sb, bo))
     s.append(R1.box(sb, "6 kg", bo))
     s.append(R1.force(sb, "T", bo))
-    fr_lab = col(f'{it("F")}r = 20.8 N', RED) if t >= S("wF", 0.5) else "Friction"
+    fr_lab = col(f'{it("F")}r = 20.8 N', RED) if t >= S("wF", "20.8") else "Friction"
     s.append(R1.force(sb, "Fr", bo, lab=fr_lab, size=32, length=100))
-    r_lab = R_ + col(" = 51.88 N", BLUE) if t >= S("wR", 0.6) else R_
+    r_lab = R_ + col(" = 51.88 N", BLUE) if t >= S("wR", "51.88") else R_
     s.append(R1.force(sb, "R", bo, lab=r_lab, size=32, length=85, align="end", lab_dx=-6, lab_dy=44))
     s.append(R1.force(sb, "W", bo, lab=col("6" + it("g"), PUR), length=85, align="start", lab_dx=12, lab_dy=-50))
-    s.append(R1.components(sb, op_cos=bo * window(t, S("wR", 0.1), S("wF"), 0.4), op_sin=bo * fade(t, S("wchk", 0.3)), size=28))
+    s.append(R1.components(sb, op_cos=bo * window(t, S("wR", "R equals"), S("wF"), 0.4), op_sin=bo * fade(t, S("wchk", "The component")), size=28))
     # work bars
     kf = clamp((sb - E1_S0) / (E1_S1 - E1_S0)) if second else 0
-    kg = ease(clamp((t - S("wwg", 0.1)) / (S("wwg", 0.6) - S("wwg", 0.1))))
-    bo1 = fade(t, S("wmove", 0.1))
+    kg = ease(clamp((t - S("wwg", "m g h")) / (S("wwg", "553") - S("wwg", "m g h"))))
+    bo1 = fade(t, S("wmove", "watch"))
     s.append(bar(1150, 600, 600, [(E1_WF * E1_SCALE * kf, RED)], bo1, lab="against friction", labc=RED,
-                 value="415 J" if t >= S("wwf", 0.5) else None, valc=RED))
-    s.append(bar(1150, 640, 600, [(E1_WG * E1_SCALE * kg, PUR)], fade(t, S("wwg", 0.05)), lab="against gravity", labc=PUR,
-                 value="553 J" if t >= S("wwg", 0.6) else None, valc=PUR))
-    s.append(bar(1150, 680, 600, [(E1_WF * E1_SCALE, RED), (E1_WG * E1_SCALE, PUR)], fade(t, S("wtot", 0.2)), outline=GREEN,
-                 lab=f"by {T_}", labc=GREEN, value="968 J" if t >= S("wtot", 0.5) else None, valc=GREEN))
+                 value="415 J" if t >= S("wwf", "415") else None, valc=RED))
+    s.append(bar(1150, 640, 600, [(E1_WG * E1_SCALE * kg, PUR)], fade(t, S("wwg", "m g h")), lab="against gravity", labc=PUR,
+                 value="553 J" if t >= S("wwg", "553") else None, valc=PUR))
+    s.append(bar(1150, 680, 600, [(E1_WF * E1_SCALE, RED), (E1_WG * E1_SCALE, PUR)], fade(t, S("wtot", "both jobs")), outline=GREEN,
+                 lab=f"by {T_}", labc=GREEN, value="968 J" if t >= S("wtot", "968") else None, valc=GREEN))
     s.append(caption(t, [
         (S("w1"), S("wtri"), "The problem", "A box is pulled up a rough slope at a constant speed."),
         (S("wtri"), S("wR"), "Step 1: Exact trig values", "tan α = 8/15, so use an 8, 15, 17 triangle."),
@@ -719,53 +742,53 @@ def scene_q2(t):
     s = [f'<g opacity="{op}">', header("Your turn: finding the coefficient of friction")]
     s.append(qblock(t, [
         (S("q2b"), "A rough surface is inclined at an angle arctan 3/4 to"),
-        (S("q2b", 0.3), "the horizontal. A parcel of mass 1.5 kg is pulled 4 m"),
-        (S("q2b", 0.55), "at a constant speed up the surface by a force acting"),
-        (S("q2b", 0.8), "along a line of greatest slope. The only resistances"),
+        (S("q2b", "the horizontal"), "the horizontal. A parcel of mass 1.5 kg is pulled 4 m"),
+        (S("q2b", "at a constant"), "at a constant speed up the surface by a force acting"),
+        (S("q2b", "along a line"), "along a line of greatest slope. The only resistances"),
         (S("q2c"), "to the motion are friction and gravity. The work done"),
-        (S("q2c", 0.6), "by the force is 50 J.")],
+        (S("q2c", "by the force"), "by the force is 50 J.")],
         ["Find the coefficient of friction between the parcel",
          "and the surface."], S("q2d")))
     mg = col(f'{it("m")}{it("g")}', PUR)
     s.append(working(t, [
-        (S("s2a", 0.6), f"sin {A_} = 3/5,    cos {A_} = 4/5", 34),
-        (S("s2b", 0.55), f"{H_} = 4 × 3/5 = 2.4 m", 34),
-        (S("s2c", 0.5), f"Against gravity:   {mg}{H_} = 1.5 × 9.8 × 2.4 = 35.28 J", 34),
-        (S("s2d", 0.6), f"Against friction:   50 − 35.28 = {col('14.72 J', RED, True)}", 34),
-        (S("s2e", 0.5), f"{R_} = 1.5{it('g')} {COS} = 1.5 × 9.8 × 4/5 = 11.76 N", 34),
-        (S("s2f", 0.55), f"{MU}{R_} × {D_}:   14.72 = {MU} × 11.76 × 4 = 47.04{MU}", 34),
+        (S("s2a", "Sine alpha"), f"sin {A_} = 3/5,    cos {A_} = 4/5", 34),
+        (S("s2b", "it rises"), f"{H_} = 4 × 3/5 = 2.4 m", 34),
+        (S("s2c", "m g h"), f"Against gravity:   {mg}{H_} = 1.5 × 9.8 × 2.4 = 35.28 J", 34),
+        (S("s2d", "so the other"), f"Against friction:   50 − 35.28 = {col('14.72 J', RED, True)}", 34),
+        (S("s2e", "R is"), f"{R_} = 1.5{it('g')} {COS} = 1.5 × 9.8 × 4/5 = 11.76 N", 34),
+        (S("s2f", "So 14.72"), f"{MU}{R_} × {D_}:   14.72 = {MU} × 11.76 × 4 = 47.04{MU}", 34),
     ], 580, 58))
-    s.append(answer_box(t, S("s2g", 0.4), 965, 420, f"{MU} = 0.313  (3 s.f.)", 40))
+    s.append(answer_box(t, S("s2g", "mu is"), 965, 420, f"{MU} = 0.313  (3 s.f.)", 40))
     # motion while the question is read: the force does 50 J of work
-    keys = [(S("q2b", 0.45), E2_S0, 1), (S("q2c", 0.85), E2_S1, 1)]
+    keys = [(S("q2b", "is pulled"), E2_S0, 1), (S("q2c", "50 joules"), E2_S1, 1)]
     sb, _ = track(t, keys)
     s.append(R2.svg(rough=1))
-    s.append(tri_icon(1010, 262, 4, 3, 5, 40, fade(t, S("s2a", 0.15)), 28))
-    s.append(R2.h_marker(E2_S0, E2_S1, fade(t, S("s2b", 0.2)), lab=H_ + col(" = 2.4 m", ORANGE) if t >= S("s2b", 0.7) else H_,
+    s.append(tri_icon(1010, 262, 4, 3, 5, 40, fade(t, S("s2a", "so this is")), 28))
+    s.append(R2.h_marker(E2_S0, E2_S1, fade(t, S("s2b", "it rises")), lab=H_ + col(" = 2.4 m", ORANGE) if t >= S("s2b", "2.4") else H_,
                          size=34, inside=True))
-    s.append(R2.d_arrow(E2_S0, sb, window(t, S("q2b", 0.4), S("s2a", 0.1), 0.3), lab="4 m"))
+    s.append(R2.d_arrow(E2_S0, sb, window(t, S("q2b", "is pulled"), S("s2a", "so this is"), 0.3), lab="4 m"))
     if moving(t, keys): s.append(R2.speed_lines(sb))
     s.append(R2.box(sb, "1.5 kg"))
     s.append(R2.force(sb, "T", 1, length=100))
-    fr_lab = col(f'{it("F")}r = {MU}{it("R")}', RED) if t >= S("s2f", 0.3) else "Friction"
+    fr_lab = col(f'{it("F")}r = {MU}{it("R")}', RED) if t >= S("s2f", "mu R") else "Friction"
     s.append(R2.force(sb, "Fr", 1, lab=fr_lab, size=32))
-    s.append(R2.force(sb, "R", 1, lab=R_ + col(" = 11.76 N", BLUE) if t >= S("s2e", 0.6) else R_, size=32, length=85,
+    s.append(R2.force(sb, "R", 1, lab=R_ + col(" = 11.76 N", BLUE) if t >= S("s2e", "11.76") else R_, size=32, length=85,
                       align="end", lab_dx=-6, lab_dy=26))
     s.append(R2.force(sb, "W", 1, lab=col("1.5" + it("g"), PUR), length=85, align="start", lab_dx=12, lab_dy=-50))
     # the 50 J bar fills during the motion, then is shared between gravity and friction
     k = clamp((sb - E2_S0) / (E2_S1 - E2_S0))
-    split = ease(clamp((t - S("s2d", 0.15)) / 1.0))
+    split = ease(clamp((t - S("s2d", "Gravity takes")) / 1.0))
     wg, wf = 35.28 * E2_SCALE, 14.72 * E2_SCALE
     if split <= 0:
-        s.append(bar(1180, 620, 580, [(580 * k, GREEN)], fade(t, S("q2b", 0.45)), lab="by the force", labc=GREEN,
+        s.append(bar(1180, 620, 580, [(580 * k, GREEN)], fade(t, S("q2b", "is pulled")), lab="by the force", labc=GREEN,
                      value="50 J" if k >= 1 else None, valc=GREEN))
     else:
         s.append(bar(1180, 620, 580, [(wg, PUR), (wf, RED)], 1, outline=GREEN, lab="by the force", labc=GREEN))
         s.append(text(1180, 685, "35.28 J gravity", 28, PUR, op=split, weight="bold"))
         s.append(label(1180 + 580, 685, "14.72 J friction", 28, RED, "end", split, "bold"))
-    if t >= S("s2c", 0.5) and split <= 0:
-        s.append(f'<rect x="1180" y="620" width="{wg}" height="30" rx="6" fill="{PUR}" opacity="{0.85 * fade(t, S("s2c", 0.5))}"/>')
-    s.append(pop(t, S("s2d", 0.5), 1470, 600, "shared out!", size=40))
+    if t >= S("s2c", "m g h") and split <= 0:
+        s.append(f'<rect x="1180" y="620" width="{wg}" height="30" rx="6" fill="{PUR}" opacity="{0.85 * fade(t, S("s2c", "m g h"))}"/>')
+    s.append(pop(t, S("s2d", "14.72"), 1730, 470, "shared out!", size=36))
     s.append(caption(t, [
         (S("q2b"), S("q2p"), "Your turn", "Find μ from the work done by the force."),
         (S("s2a"), S("s2b"), "Step 1: Exact trig values", "tan α = 3/4, so use a 3, 4, 5 triangle."),
@@ -775,12 +798,12 @@ def scene_q2(t):
         (S("s2e"), S("s2f"), "Step 5: Resolve perpendicular", "R = 1.5g cos α"),
         (S("s2f"), S("s2chk"), "Step 6: Work done against friction", "μR × d = 14.72, then solve for μ."),
     ]))
-    mo = window(t, S("s2chk", 0.3), S("cta") - 0.4, 0.5)
+    mo = window(t, S("s2chk", "A common mistake"), S("cta") - 0.4, 0.5)
     if mo > 0:
         s.append(f'<g opacity="{mo}"><rect x="990" y="720" width="850" height="250" rx="14" fill="#fdecea" stroke="{RED}" stroke-width="4"/>'
                  + text(1020, 778, "Common mistake: using all 50 J for friction", 34, RED, weight="bold")
-                 + text(1020, 850, NB(f"50 = {MU} × 11.76 × 4   →   {MU} = 1.06"), 40, NAVY, op=fade(t, S("s2chk", 0.45)))
-                 + text(1020, 920, "Bigger than 1: take away the gravity part first!", 32, RED, op=fade(t, S("s2chk", 0.6))) + '</g>')
+                 + text(1020, 850, NB(f"50 = {MU} × 11.76 × 4   →   {MU} = 1.06"), 40, NAVY, op=fade(t, S("s2chk", "That gives")))
+                 + text(1020, 920, "Bigger than 1: take away the gravity part first!", 32, RED, op=fade(t, S("s2chk", "bigger than 1"))) + '</g>')
     s.append('</g>')
     return "".join(s)
 
@@ -809,7 +832,7 @@ def encode():
     cmd = ["ffmpeg", "-y", "-framerate", str(FPS), "-i", f"{OUT}/f%05d.png"]
     audio = HERE + "/ramps_audio.mp3"
     if os.path.exists(audio):
-        cmd += ["-i", audio, "-c:a", "aac", "-b:a", "192k", "-shortest"]
+        cmd += ["-i", audio, "-c:a", "aac", "-b:a", "192k"]
     cmd += ["-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart", HERE + "/ramps.mp4"]
     subprocess.run(cmd, check=True)
 
