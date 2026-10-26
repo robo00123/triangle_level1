@@ -1,0 +1,17 @@
+First, a quick reminder. The scalar product of two vectors a and b is the magnitude of a, times the magnitude of b, times the cosine of the angle between them. That angle is measured with the vectors tail to tail.
+
+If one of the vectors is a unit vector, like w hat, its magnitude is 1. So a dot w hat is just the magnitude of a times cos theta. That's the component of a in the direction of w hat. You can think of it as the shadow of a on that line.
+
+Watch what happens as the angle gets bigger. At 90 degrees, there's no shadow, so the scalar product is zero. Past 90 degrees, the cosine is negative, so the component is negative. The vector is pointing backwards, against w hat.
+
+Let's start along the wall, with u dot w hat, where w hat is the unit vector along the wall.
+
+To find the angle between u and w hat, we need them tail to tail. So slide u along its line until its tail is at the point of impact. Now we can see that the angle between u and w hat is alpha.
+
+So u dot w hat is the magnitude of u, times the magnitude of w hat, times cos alpha. w hat is a unit vector, so its magnitude is 1. That leaves u cos alpha, where u is the speed. It's the shadow of u on the wall.
+
+v and w hat are already tail to tail, with an angle beta between them. So v dot w hat is v times 1 times cos beta, which is v cos beta.
+
+We know that u cos alpha equals v cos beta. You can see it in the shadows, which are exactly the same length. So u dot w hat equals v dot w hat.
+
+Finally, w is w hat multiplied by the magnitude of w. Multiply both sides by the magnitude of w, and we get our first result. u dot w equals v dot w, for any vector w along the wall.

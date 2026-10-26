@@ -1,0 +1,19 @@
+So here are the two results. u dot w equals v dot w. And negative e times u dot I equals v dot I.
+
+The first says the component of the velocity along the wall doesn't change. The second says the component perpendicular to the wall reverses, and is multiplied by e.
+
+Because they're written with scalar products, they work for a wall in any direction. w can be any vector along the wall, and I can be any vector perpendicular to it, pointing either way. You never need to find alpha or beta.
+
+Let's see how useful that is.
+
+A smooth sphere is moving on a smooth horizontal surface with velocity 11 i minus 2 j metres per second. It hits a smooth vertical wall, which is parallel to the vector 3 i plus 4 j. The coefficient of restitution is a half. Find the velocity of the sphere after the impact.
+
+Let the velocity after the impact be a i plus b j. Along the wall, w is 3 i plus 4 j. For I, swap the components and change one sign, which gives 4 i minus 3 j. w dot I is 12 minus 12, which is zero, so they are perpendicular.
+
+Along the wall, u dot w equals v dot w. u dot w is 11 times 3, plus negative 2 times 4, which is 25. And v dot w is 3 a plus 4 b. So 3 a plus 4 b equals 25.
+
+Perpendicular to the wall, negative e times u dot I equals v dot I. u dot I is 11 times 4, plus negative 2 times negative 3, which is 50. Negative a half times 50 is negative 25. So 4 a minus 3 b equals negative 25.
+
+Solving these simultaneous equations gives a equals negative 1, and b equals 7. So the sphere leaves the wall with velocity negative i plus 7 j metres per second, and we didn't need a single angle.
+
+That's oblique impact with a wall, using the scalar product. You'll find the full lesson and the worksheet at Mr Mathematics dot com, and the link to the worksheet is in the description below. Thanks for watching.

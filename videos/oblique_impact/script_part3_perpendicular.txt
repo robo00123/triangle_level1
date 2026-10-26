@@ -1,0 +1,27 @@
+Now for the direction perpendicular to the wall. This time we need u dot I hat, where I hat is the unit vector perpendicular to the wall, pointing away from it.
+
+Put u and I hat tail to tail. I hat points away from the wall, and u points into it. The angle between them is a right angle plus alpha. That's 90 degrees plus alpha.
+
+So u dot I hat is the magnitude of u, times 1, times cos of 90 plus alpha.
+
+What is cos of 90 plus alpha? On the unit circle, the point at an angle alpha has coordinates cos alpha, sine alpha. Now turn it through another 90 degrees. The triangle turns with it, and the x coordinate becomes negative sine alpha. So cos of 90 plus alpha is negative sine alpha.
+
+That means u dot I hat equals negative u sine alpha. You can see why in the shadow. The shadow of u on the line of I hat points the opposite way to I hat, so it's negative. The sphere is moving towards the wall.
+
+Now v dot I hat. v points away from the wall, at an angle beta above it. So the angle between v and I hat is 90 degrees minus beta.
+
+So v dot I hat is v times 1 times cos of 90 minus beta.
+
+Look at the right-angled triangle under v. Its angles are beta and 90 minus beta. The side opposite beta is next to the angle 90 minus beta. So cos of 90 minus beta is the same as sine beta.
+
+So v dot I hat equals v sine beta. This time, the shadow points the same way as I hat, so it's positive. The sphere is moving away from the wall.
+
+Now we bring in Newton's law of restitution. v sine beta equals e u sine alpha.
+
+We've just seen that v sine beta is v dot I hat, and u sine alpha is negative u dot I hat.
+
+Substituting, v dot I hat equals e times negative u dot I hat. That's negative e times u dot I hat.
+
+Here it is with the shadows. Reverse the shadow of u, multiply it by e, and you get the shadow of v exactly.
+
+Finally, I is I hat multiplied by the magnitude of I. Multiply both sides by the magnitude of I, and we get our second result. Negative e times u dot I equals v dot I, for any vector I perpendicular to the wall.

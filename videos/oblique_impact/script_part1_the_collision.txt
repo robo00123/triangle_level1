@@ -1,0 +1,25 @@
+Welcome to this lesson on oblique impact with a wall. When a smooth sphere bounces off a smooth wall at an angle, there are two results that let you find its velocity after the impact, without working out a single angle. They're very useful, but they're rarely taught. In this video, we'll prove both of them using the scalar product.
+
+Imagine looking down on a smooth sphere moving across a smooth horizontal surface, towards a smooth vertical wall. It hits the wall at an angle, and bounces off.
+
+Before the impact, the velocity of the sphere is u. After the impact, its velocity is v.
+
+u makes an angle alpha with the wall, and v makes an angle beta with the wall. The coefficient of restitution between the sphere and the wall is e.
+
+Notice that the wall isn't in the i direction or the j direction. So splitting the velocities into i and j components won't help us here.
+
+Instead, we use two directions that suit the wall. w points along the wall, and I is perpendicular to the wall, pointing away from it. So w and I are perpendicular to each other.
+
+Let's turn the picture so that the wall is horizontal. The collision hasn't changed at all. We're just looking at it from a different angle.
+
+Now let's split each velocity into two parts, one along the wall and one perpendicular to it.
+
+Before the impact, the sphere moves along the wall at u cos alpha, and towards the wall at u sine alpha.
+
+After the impact, it moves along the wall at v cos beta, and away from the wall at v sine beta.
+
+The wall is smooth, so the impulse from the wall acts perpendicular to the wall. There's no impulse along the wall, so the velocity along the wall doesn't change. u cos alpha equals v cos beta.
+
+Perpendicular to the wall, we use Newton's law of restitution. The speed away from the wall is e times the speed towards it. So v sine beta equals e u sine alpha.
+
+These two equations are our starting point. Now let's write them using the scalar product.

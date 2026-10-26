@@ -19,7 +19,7 @@ SR = 16000
 # pronunciations missing from the pocketsphinx dictionary, and the voice's readings of cos and mu
 EXTRA_WORDS = {"frictional": "F R IH K SH AH N AH L", "hypotenuse": "HH AY P AA T AH N UW S", "newtons": "N UW T AH N Z",
                "resistances": "R IH Z IH S T AH N S AH Z", "kilojoules": "K IH L AH JH UW L Z", "storey": "S T AO R IY",
-               "cos(2)": "K AA Z", "mu(2)": "M Y UW"}
+               "cosine": "K OW S AY N", "cos(2)": "K AA Z", "mu(2)": "M Y UW"}
 
 # ------------------------------------------------------------------ the script as it is spoken
 ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
