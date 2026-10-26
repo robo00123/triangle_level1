@@ -1,0 +1,35 @@
+Let's try some examples.
+
+A crate is pushed 12 metres across a horizontal floor by a constant horizontal force of 25 newtons.
+
+Calculate the work done by the force.
+
+The force acts in the direction of motion, so the work done is the force multiplied by the distance.
+
+That's 25 times 12, which is 300. So the force does 300 joules of work.
+
+Now let's lift something. Gravity pulls the box down with its weight, m g.
+
+To lift it at a steady speed, we pull upwards with a force equal to that weight.
+
+So when the box is lifted through a height h, the work done against gravity is m g multiplied by h.
+
+A box of mass 12 kilograms is lifted vertically through a height of 5 metres. Calculate the work done against gravity.
+
+The lifting force equals the weight, which is 12 times 9.8. The distance is the height, 5 metres.
+
+12 times 9.8 times 5 is 588. So the work done against gravity is 588 joules.
+
+This next one works backwards, to find a distance.
+
+A cable is attached to a crate of mass 60 kilograms. The crate is lifted vertically at a constant speed, from the ground to the top of a tower.
+
+The work done in raising the crate is 24 kilojoules. Calculate the height of the tower.
+
+First, convert to joules. 24 kilojoules is 24 thousand joules.
+
+The work done against gravity is m g h. So 24 thousand equals 60 times 9.8 times h.
+
+60 times 9.8 is 588. Dividing 24 thousand by 588 gives a height of 40.8 metres, to 3 significant figures.
+
+Does that make sense? 40.8 metres is about the height of a 13 storey building, so it's a sensible height for a tower.

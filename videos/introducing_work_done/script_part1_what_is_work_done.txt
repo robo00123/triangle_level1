@@ -1,0 +1,27 @@
+Welcome to this lesson, an introduction to work done. Work done is a way of measuring what a force achieves when it moves an object. By the end of this video, you'll be able to calculate the work done by a force, against gravity, and against friction.
+
+Let's start with the big idea.
+
+Work is done whenever a force makes an object move.
+
+Here, a force pushes a box along the floor. The box moves, so the force is doing work.
+
+Watch the bar. The further the box moves, the more work the force does.
+
+Now this force is pushing against a wall. However hard it pushes, the wall doesn't move.
+
+Think about leaning on a wall all lesson. You'd feel tired, but the wall hasn't moved, so you've done no work on it.
+
+No movement means no work.
+
+So how much work is done? It depends on two things.
+
+The first is the size of the force. Double the force over the same distance, and twice as much work is done.
+
+The second is how far the object moves in the direction of the force. Use the same force over twice the distance, and again, twice as much work is done.
+
+Putting those together, the work done is the force multiplied by the distance moved in the direction of the force.
+
+When the force acts in the same direction as the motion, this is simply force times distance. We write it as W equals F s, where s is the distance moved.
+
+Work is measured in joules. One joule is the work done when a force of 1 newton moves an object 1 metre.

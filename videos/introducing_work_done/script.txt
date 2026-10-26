@@ -1,0 +1,101 @@
+Welcome to this lesson, an introduction to work done. Work done is a way of measuring what a force achieves when it moves an object. By the end of this video, you'll be able to calculate the work done by a force, against gravity, and against friction.
+
+Let's start with the big idea.
+
+Work is done whenever a force makes an object move.
+
+Here, a force pushes a box along the floor. The box moves, so the force is doing work.
+
+Watch the bar. The further the box moves, the more work the force does.
+
+Now this force is pushing against a wall. However hard it pushes, the wall doesn't move.
+
+Think about leaning on a wall all lesson. You'd feel tired, but the wall hasn't moved, so you've done no work on it.
+
+No movement means no work.
+
+So how much work is done? It depends on two things.
+
+The first is the size of the force. Double the force over the same distance, and twice as much work is done.
+
+The second is how far the object moves in the direction of the force. Use the same force over twice the distance, and again, twice as much work is done.
+
+Putting those together, the work done is the force multiplied by the distance moved in the direction of the force.
+
+When the force acts in the same direction as the motion, this is simply force times distance. We write it as W equals F s, where s is the distance moved.
+
+Work is measured in joules. One joule is the work done when a force of 1 newton moves an object 1 metre.
+
+Let's try some examples.
+
+A crate is pushed 12 metres across a horizontal floor by a constant horizontal force of 25 newtons.
+
+Calculate the work done by the force.
+
+The force acts in the direction of motion, so the work done is the force multiplied by the distance.
+
+That's 25 times 12, which is 300. So the force does 300 joules of work.
+
+Now let's lift something. Gravity pulls the box down with its weight, m g.
+
+To lift it at a steady speed, we pull upwards with a force equal to that weight.
+
+So when the box is lifted through a height h, the work done against gravity is m g multiplied by h.
+
+A box of mass 12 kilograms is lifted vertically through a height of 5 metres. Calculate the work done against gravity.
+
+The lifting force equals the weight, which is 12 times 9.8. The distance is the height, 5 metres.
+
+12 times 9.8 times 5 is 588. So the work done against gravity is 588 joules.
+
+This next one works backwards, to find a distance.
+
+A cable is attached to a crate of mass 60 kilograms. The crate is lifted vertically at a constant speed, from the ground to the top of a tower.
+
+The work done in raising the crate is 24 kilojoules. Calculate the height of the tower.
+
+First, convert to joules. 24 kilojoules is 24 thousand joules.
+
+The work done against gravity is m g h. So 24 thousand equals 60 times 9.8 times h.
+
+60 times 9.8 is 588. Dividing 24 thousand by 588 gives a height of 40.8 metres, to 3 significant figures.
+
+Does that make sense? 40.8 metres is about the height of a 13 storey building, so it's a sensible height for a tower.
+
+Now let's look at friction. This time, the floor is rough.
+
+Friction acts against the motion. To push the crate at a constant speed, the pushing force has to balance the friction exactly.
+
+Friction is mu R. On a horizontal floor with a horizontal push, the normal reaction R balances the weight, so R equals m g.
+
+So the work done against friction is mu m g, multiplied by the distance moved.
+
+A crate of mass 8 kilograms is pushed a distance of 6 metres across a rough horizontal floor. The crate moves at a constant speed.
+
+The work done against friction is 72 joules. Calculate the coefficient of friction between the crate and the floor.
+
+Work done is force times distance, so 72 equals the friction times 6. That makes the friction 12 newtons.
+
+The push is horizontal, so R equals m g. That's 8 times 9.8, which is 78.4 newtons.
+
+Friction equals mu R, so 12 equals mu times 78.4. Dividing, mu is 0.153 to 3 significant figures.
+
+Now it's your turn.
+
+A crate of mass 5 kilograms is pushed across a rough horizontal floor, at a constant speed of 4 metres per second.
+
+The coefficient of friction between the crate and the floor is 0.4. Calculate the work done against friction in 3 seconds.
+
+Pause the video now and have a go. Think about how far the crate travels in 3 seconds. Press play when you're ready to check your answer.
+
+Right, let's go through it.
+
+First, the distance. At 4 metres per second for 3 seconds, the crate travels 4 times 3, which is 12 metres.
+
+Next, the friction. On a horizontal floor, R equals m g, so the friction is 0.4 times 5 times 9.8. That's 19.6 newtons.
+
+The work done against friction is the friction times the distance. 19.6 times 12 is 235.2, so the work done is 235.2 joules.
+
+A common mistake is to multiply the friction by the time instead of the distance. That gives 58.8, which isn't work done at all. Work done is always force times distance.
+
+That's an introduction to work done. You'll find the full lesson and the worksheet at Mr Mathematics dot com, and the link to the worksheet is in the description below. Thanks for watching.

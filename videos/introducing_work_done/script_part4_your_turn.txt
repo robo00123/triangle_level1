@@ -1,0 +1,19 @@
+Now it's your turn.
+
+A crate of mass 5 kilograms is pushed across a rough horizontal floor, at a constant speed of 4 metres per second.
+
+The coefficient of friction between the crate and the floor is 0.4. Calculate the work done against friction in 3 seconds.
+
+Pause the video now and have a go. Think about how far the crate travels in 3 seconds. Press play when you're ready to check your answer.
+
+Right, let's go through it.
+
+First, the distance. At 4 metres per second for 3 seconds, the crate travels 4 times 3, which is 12 metres.
+
+Next, the friction. On a horizontal floor, R equals m g, so the friction is 0.4 times 5 times 9.8. That's 19.6 newtons.
+
+The work done against friction is the friction times the distance. 19.6 times 12 is 235.2, so the work done is 235.2 joules.
+
+A common mistake is to multiply the friction by the time instead of the distance. That gives 58.8, which isn't work done at all. Work done is always force times distance.
+
+That's an introduction to work done. You'll find the full lesson and the worksheet at Mr Mathematics dot com, and the link to the worksheet is in the description below. Thanks for watching.

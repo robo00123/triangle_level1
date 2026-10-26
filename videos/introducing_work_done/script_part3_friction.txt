@@ -1,0 +1,17 @@
+Now let's look at friction. This time, the floor is rough.
+
+Friction acts against the motion. To push the crate at a constant speed, the pushing force has to balance the friction exactly.
+
+Friction is mu R. On a horizontal floor with a horizontal push, the normal reaction R balances the weight, so R equals m g.
+
+So the work done against friction is mu m g, multiplied by the distance moved.
+
+A crate of mass 8 kilograms is pushed a distance of 6 metres across a rough horizontal floor. The crate moves at a constant speed.
+
+The work done against friction is 72 joules. Calculate the coefficient of friction between the crate and the floor.
+
+Work done is force times distance, so 72 equals the friction times 6. That makes the friction 12 newtons.
+
+The push is horizontal, so R equals m g. That's 8 times 9.8, which is 78.4 newtons.
+
+Friction equals mu R, so 12 equals mu times 78.4. Dividing, mu is 0.153 to 3 significant figures.
