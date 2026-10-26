@@ -73,7 +73,7 @@ def decoder(**kw):
 
 def words_of(d, offset):
     out = []
-    for s in d.seg():
+    for s in d.seg() or []:
         w = re.sub(r"\(\d+\)$", "", s.word)
         if w in ("<s>", "</s>", "<sil>") or w.startswith("[") or w.startswith("+"): continue
         out.append((w, offset + s.start_frame / 100, offset + (s.end_frame + 1) / 100))
@@ -153,7 +153,10 @@ def align_line(raw, line, s, e, total):
 def time_words(script, raw, bounds, total):
     words = {}
     for (key, line), (s, e) in zip(script, bounds):
-        ws = align_line(raw, line, s, e, total)
+        ws = None
+        for pad in (0.0, 0.4, 1.0):                  # if the line won't align, give it a little more audio either side
+            ws = align_line(raw, line, s - pad, e + pad, total)
+            if ws is not None: break
         if ws is None:
             n = len(line.split())
             ws = [s + (e - s) * i / n for i in range(n)] + [e]

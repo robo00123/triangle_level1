@@ -1,15 +1,16 @@
-import math, os, sys, subprocess
+import math, os, sys, base64, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "common"))
 import cairosvg
 from multiprocessing import Pool
 from make_video import arrow, text, it, col, clamp, fade, ease, card, DEFS, NAVY, GREEN, RED, BLUE, GOLD, W, H, FPS
 from lesson import (Cues, window, label, header, divider, footer, caption, qblock, gold_box, answer_box, pop,
-                    section_card, cta_card, dashed, darrow, PUR, INK)
+                    section_card, cta_card, title_image, dashed, darrow, PUR, INK)
 import impact_script
 
 OUT = HERE + "/frames_impact"
 os.makedirs(OUT, exist_ok=True)
+IMG64 = base64.b64encode(open(HERE + "/impact_title.png", "rb").read()).decode()
 CUES = Cues(impact_script, HERE + "/impact_cues.json")
 S, DUR = CUES.S, CUES.dur
 
@@ -705,7 +706,6 @@ def scene_example(t):
     return "".join(s)
 
 # ------------------------------------------------------------------ frame
-TITLE_SUB = "Proving  u · w = v · w  and  −e u · I = v · I"
 
 def frame_svg(t):
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
@@ -718,9 +718,7 @@ def frame_svg(t):
     s.append(section_card(t, S("ex0") - 0.55, S("ex1") - 0.55, [("Using the", "white"), ("results", "#ffc94d")],
                           "A sphere hits a wall parallel to 3i + 4j"))
     s.append(cta_card(t, S("cta") - 0.55, S("cta", "You'll find"), S("cta", "the link")))
-    top = 1 - fade(t, S("s1") - 0.55, 0.6)
-    if top > 0:
-        s.append(card([("Oblique impact", "white"), ("with a wall", "#ffc94d")], TITLE_SUB, top))
+    s.append(title_image(t, IMG64, S("s1") - 0.55))
     s.append('</svg>')
     return "".join(s)
 

@@ -16,10 +16,13 @@ narration).
 | `script.txt`, `script_part*.txt` | The narration as plain text for ElevenLabs (whole, and in four parts under 2,500 characters) |
 | `make_impact.py` | The animation |
 | `sync_impact.py` | Lines the animation up with the recorded narration, word by word |
+| `narration.mp3` | The ElevenLabs narration |
+| `impact_audio.mp3`, `impact_cues.json` | The narration with the pauses added, and the time of every script line and word (made by `sync_impact.py`) |
+| `impact_title.png` | The lesson title slide, *Rebounding particles against inclined walls*, shown at the start |
 
 ## Structure
 
-1. Title card
+1. Opening: the lesson title slide
 2. The set-up: the sphere moves in, hits the tilted wall and bounces off; **u**, **v**, *α*, *β* and *e*; the wall is
    not in the **i** or **j** direction, so **w** (along the wall) and **I** (perpendicular) are used instead; the
    picture turns so the wall is horizontal

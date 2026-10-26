@@ -1,6 +1,6 @@
 SCRIPT = [
     # ---------------- part 1: the collision
-    ("open",  "Welcome to this lesson on oblique impact with a wall. When a smooth sphere bounces off a smooth wall at an angle, there are two results that let you find its velocity after the impact, without working out a single angle. They're very useful, but they're rarely taught. In this video, we'll prove both of them using the scalar product."),
+    ("open",  "Welcome to this lesson on oblique impact with a wall. When a smooth sphere bounces off a smooth wall at an angle, there are two results that let you find its velocity after the impact, without working out a single angle. In this video, we'll prove both of them using the scalar product."),
     ("s1",    "Imagine looking down on a smooth sphere moving across a smooth horizontal surface, towards a smooth vertical wall. It hits the wall at an angle, and bounces off."),
     ("s2",    "Before the impact, the velocity of the sphere is u. After the impact, its velocity is v."),
     ("s3",    "u makes an angle alpha with the wall, and v makes an angle beta with the wall. The coefficient of restitution between the sphere and the wall is e."),
